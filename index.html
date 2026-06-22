@@ -8,142 +8,358 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f8f9fa; }
-        .sidebar { background-color: #212529; min-height: 100vh; color: white; }
-        .sidebar .nav-link { color: #adb5bd; border-radius: 5px; margin-bottom: 5px; }
+        
+        /* 側邊欄 RWD 自適應：手機置頂橫條，平板以上固定左側 */
+        .sidebar { background-color: #212529; color: white; padding: 15px; }
+        .sidebar .nav-link { color: #adb5bd; border-radius: 5px; margin-bottom: 5px; cursor: pointer; display: inline-block; padding: 8px 12px; }
         .sidebar .nav-link.active { color: white; background-color: #0d6efd; }
         .sidebar .nav-link:hover { color: white; background-color: #343a40; }
-        .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .status-badge { width: 15px; height: 15px; border-radius: 50%; display: inline-block; }
+        
+        @media (min-width: 768px) {
+            .sidebar { min-height: 100vh; position: fixed; width: 16.666667%; top: 0; left: 0; z-index: 1000; }
+            .sidebar .nav-link { display: block; }
+            .main-content { margin-left: 16.666667%; width: 83.333333%; }
+        }
+        
+        .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .module-content { display: none; }
+        .module-content.active { display: block; }
+        
+        /* 致敬富鼎分會的彈窗風格 */
+        .welcome-modal-content { border-radius: 16px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .welcome-title { font-weight: 700; color: #212529; letter-spacing: 1px; }
+        .welcome-sub { color: #dc3545; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; }
+        .btn-welcome { background-color: #e6dfd5; color: #4a4a4a; border: none; border-radius: 8px; padding: 12px; font-weight: bold; }
+        .btn-welcome:hover { background-color: #dcd4c9; }
     </style>
 </head>
 <body>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2 p-3 sidebar">
-            <h4 class="text-center mb-4 text-white">🏢 睿立秘書系統</h4>
-            <div class="text-center mb-3 text-muted small">⏱️ 主管管理後台</div>
-            <hr>
-            <nav class="nav flex-column">
-                <a class="nav-link active" href="#"><i class="bi bi-folder-fill me-2"></i> 案件管理</a>
-                <a class="nav-link" href="#"><i class="bi bi-balance me-2"></i> 案件評估</a>
-                <a class="nav-link" href="#"><i class="bi bi-file-earmark-text me-2"></i> 會議記錄</a>
-                <a class="nav-link" href="#"><i class="bi bi-calendar3 me-2"></i> 行事曆</a>
-                <a class="nav-link" href="#"><i class="bi bi-check2-square me-2"></i> 待辦事項</a>
-                <a class="nav-link" href="#"><i class="bi bi-lightbulb me-2"></i> 提案書</a>
-            </nav>
-        </div>
-
-        <div class="col-md-10 p-4">
-            <div class="d-flex justify-content-between align-content-center border-bottom pb-2 mb-4">
-                <h2>📂 案件管理 ／ 📄 案件詳細資料</h2>
-                <span class="text-muted" id="live-time"></span>
+<!-- 多角色登入歡迎彈窗 (致敬富鼎分會樣式) -->
+<div class="modal fade" id="welcomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content welcome-modal-content p-4">
+            <div class="text-center mb-2">
+                <span class="welcome-sub">WELCOME</span>
+                <h3 class="welcome-title mt-2">歡迎來到睿立集團</h3>
+                <p class="text-muted small px-3 mt-3">請選擇您是誰，系統會自動將首頁與所有模組過濾成「跟你有關」的專屬內容與待辦清單。</p>
             </div>
-
-            <div class="card p-4 mb-4">
-                <h5 class="card-title text-primary mb-3"><i class="bi bi-building me-2"></i> 睿立實業股份有限公司</h5>
-                <div class="row g-3">
-                    <div class="col-md-4"><strong>📍 工廠地址：</strong> 台中市工業區路XX號</div>
-                    <div class="col-md-4"><strong>👤 客戶聯絡人：</strong> 張總經理</div>
-                    <div class="col-md-4"><strong>📞 聯絡電話：</strong> 04-2345XXXX</div>
+            <div class="modal-body">
+                <select class="form-select form-select-lg mb-4" id="userSelect">
+                    <option value="" disabled selected>— 點此搜尋你的名字 —</option>
+                    <optgroup label="👑 股東階層">
+                        <option value="創辦人">創辦人 (全面總覽權限)</option>
+                        <option value="股東A">股東成員 A</option>
+                    </optgroup>
+                    <optgroup label="🧑‍💼 團隊同仁">
+                        <option value="林經理">林經理 (專案負責人)</option>
+                        <option value="王會計">王會計 (財務專員)</option>
+                    </optgroup>
+                </select>
+                <button type="button" class="btn btn-welcome w-100 py-3" onclick="loginAsUser()">開始使用</button>
+                <div class="text-center mt-3">
+                    <a href="#" class="text-secondary small text-decoration-none" onclick="loginAsGuest()">先不選，我只是來看看</a>
                 </div>
-            </div>
-
-            <div class="card p-4 mb-4">
-                <h5 class="card-title mb-3"><i class="bi bi-hdd-network me-2"></i> 服務項目履約進度 (子表格)</h5>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>項目名稱 / 說明</th>
-                                <th>📑 應備文件檔案管理</th>
-                                <th>💰 財務進度與時程</th>
-                                <th class="text-center">狀態</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <strong>項目一：特定工廠登記</strong><br>
-                                    <span class="text-muted small">└ 廠房用地變更與合法化</span>
-                                </td>
-                                <td>
-                                    <div class="mb-2"><i class="bi bi-file-pdf text-danger"></i> 廠房土地變更計畫書_草案.pdf</div>
-                                    <div><i class="bi bi-image text-primary"></i> 現場廠房照片_1.jpg</div>
-                                    <div class="mt-2">
-                                        <input type="file" id="fileInput1" class="form-control form-control-sm" onchange="showFileName(this, 'fileListName1')">
-                                        <div id="fileListName1" class="small text-success mt-1"></div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="badge bg-secondary mb-1">合約金額: $500,000</span><br>
-                                    <span class="text-success small">📅 預計請款: 2026/07/01</span>
-                                </td>
-                                <td class="text-center"><span class="bg-success status-badge" title="執行中"></span><br><small>執行中</small></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>項目二：綠能與碳管理</strong><br>
-                                    <span class="text-muted small">└ 企業碳盤查與ESG轉型</span>
-                                </td>
-                                <td>
-                                    <div class="mb-2"><i class="bi bi-file-earmark-excel text-success"></i> 企業初始碳排數據表.xlsx</div>
-                                    <div class="mt-2">
-                                        <input type="file" id="fileInput2" class="form-control form-control-sm" onchange="showFileName(this, 'fileListName2')">
-                                        <div id="fileListName2" class="small text-success mt-1"></div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="badge bg-secondary mb-1">合約金額: $300,000</span><br>
-                                    <span class="text-warning small">⚠️ 待補件未請款</span>
-                                </td>
-                                <td class="text-center"><span class="bg-warning status-badge" title="補件中"></span><br><small>補件中</small></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card p-4 h-100">
-                        <h5>🤝 專案與關係人資訊</h5>
-                        <p class="mt-3"><strong>🧑‍💼 負責專案人員：</strong> 林經理</p>
-                        <p><strong>🤝 案件介紹人：</strong> 王大明 (代書)</p>
-                        <p><strong>💵 引介佣金：</strong> $15,000 （☑️ 已支付 2026/06/15）</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card p-4 h-100">
-                        <h5>📝 目前核心痛點備忘</h5>
-                        <textarea class="form-control mt-3" rows="4" readonly>客戶急需在第三季前完成第一階段送件，目前團隊評估尚缺最新地籍圖。下週二需主動追蹤進度。</textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <button class="btn btn-primary" onclick="alert('進度已儲存！')"><i class="bi bi-save me-2"></i> 儲存變更</button>
-                <button class="btn btn-outline-secondary" onclick="alert('正在匯出 Excel...')"><i class="bi bi-file-earmark-excel me-2"></i> 匯出 Excel</button>
-                <button class="btn btn-success" onclick="sendLineNotification()"><i class="bi bi-line me-2"></i> 發送 LINE 進度通知</button>
             </div>
         </div>
     </div>
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <!-- 左側/頂部 RWD 導覽列 -->
+        <div class="col-md-2 sidebar">
+            <h5 class="text-center my-2 text-white">🏢 睿立秘書系統</h5>
+            <div class="text-center text-warning small mb-3" id="user-badge">當前用戶: 訪客</div>
+            <hr class="d-none d-md-block">
+            <nav class="nav flex-column" id="main-nav">
+                <a class="nav-link active" onclick="switchModule('cases')"><i class="bi bi-folder-fill me-2"></i> 案件管理</a>
+                <a class="nav-link" onclick="switchModule('evaluation')"><i class="bi bi-balance me-2"></i> 案件評估</a>
+                <a class="nav-link" onclick="switchModule('todos')"><i class="bi bi-check2-square me-2"></i> 待辦事項</a>
+                <a class="nav-link" onclick="switchModule('meetings')"><i class="bi bi-file-earmark-text me-2"></i> 會議記錄</a>
+                <a class="nav-link" onclick="switchModule('proposal')"><i class="bi bi-lightbulb me-2"></i> 提案書系統</a>
+                <a class="nav-link" onclick="switchModule('calendar')"><i class="bi bi-calendar3 me-2"></i> 行事曆</a>
+            </nav>
+        </div>
+
+        <!-- 右側主要內容區 -->
+        <div class="col-md-10 p-4 main-content">
+            <!-- 動態提示訊息列 -->
+            <div id="alert-box"></div>
+
+            <form id="secretaryForm">
+                <!-- 隱藏欄位：儲存目前是誰填寫的 -->
+                <input type="hidden" id="form_operator" name="form_operator" value="訪客">
+
+                <!-- [模組一] 案件管理 -->
+                <div id="module-cases" class="module-content active">
+                    <h3 class="border-bottom pb-2 mb-4">📂 案件管理</h3>
+                    <div class="card p-4">
+                        <h5 class="text-primary mb-3"><i class="bi bi-info-circle me-2"></i>基本資料</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">公司名稱</label><input type="text" class="form-control" name="company_name" value="睿立實業股份有限公司"></div>
+                            <div class="col-md-6"><label class="form-label">客戶名稱</label><input type="text" class="form-control" name="client_name" value="張總經理"></div>
+                            <div class="col-md-6"><label class="form-label">聯絡電話</label><input type="text" class="form-control" name="client_phone" value="04-2345XXXX"></div>
+                            <div class="col-md-6"><label class="form-label">工廠地址</label><input type="text" class="form-control" name="factory_address" value="台中市工業區路XX號"></div>
+                        </div>
+                    </div>
+                    <div class="card p-4">
+                        <h5 class="text-primary mb-3"><i class="bi bi-list-task me-2"></i>服務項目 (子表格)</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light"><tr><th>項目名稱 / 說明</th><th>應備文件與 NAS 落地存檔</th><th>財務進度與時程</th></tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>特定工廠登記</strong><br><small class="text-muted">└ 廠房用地變更與合法化</small></td>
+                                        <td>
+                                            <input type="file" class="form-control form-control-sm mb-2">
+                                            <span class="badge bg-secondary">NAS加密同步預留點</span>
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm mb-1"><span class="input-group-text">金額</span><input type="number" class="form-control" name="case_price_1" value="500000"></div>
+                                            <div class="input-group input-group-sm"><span class="input-group-text">請款日</span><input type="date" class="form-control" name="pay_date_1" value="2026-07-01"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card p-4 filter-relation">
+                        <h5 class="text-primary mb-3"><i class="bi bi-people me-2"></i>關係人與引介分成</h5>
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="form-label">專案負責人員</label><input type="text" class="form-control" name="staff_name" value="林經理"></div>
+                            <div class="col-md-3"><label class="form-label">案件介紹人</label><input type="text" class="form-control" name="introducer" value="王大明 (代書)"></div>
+                            <div class="col-md-3"><label class="form-label">引介佣金</label><input type="number" class="form-control" name="commission" value="15000"></div>
+                            <div class="col-md-3"><label class="form-label">支付狀態</label><select class="form-select" name="commission_status"><option selected>已支付 (2026-06-15)</option><option>未支付</option></select></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [模組二] 案件評估 -->
+                <div id="module-evaluation" class="module-content">
+                    <h3 class="border-bottom pb-2 mb-4">⚖️ 案件評估</h3>
+                    <div class="card p-4">
+                        <h5 class="text-success mb-3">🧑‍💼 專案人員填寫區</h5>
+                        <div class="mb-3"><label class="form-label">評估標題</label><input type="text" class="form-control" name="eval_title" placeholder="例如：特定工廠改善計畫高難度件審查"></div>
+                        <div class="mb-3"><label class="form-label">工廠現況說明</label><textarea class="form-control" name="eval_desc" rows="3"></textarea></div>
+                    </div>
+                    <div class="card p-4 filter-shareholder">
+                        <h5 class="text-success mb-3">🔍 審查人意見與報價 (僅股東/審查人可見)</h5>
+                        <div class="row g-3">
+                            <div class="col-md-12"><label class="form-label">核心可行性評估意見</label><textarea class="form-control" name="eval_opinions" rows="2" placeholder="落後急迫性分析..."></textarea></div>
+                            <div class="col-md-4"><label class="form-label">精準報價金額</label><input type="number" class="form-control" name="eval_quote"></div>
+                            <div class="col-md-8"><label class="form-label">決策備註</label><input type="text" class="form-control" name="eval_notes"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [模組三] 待辦事項 -->
+                <div id="module-todos" class="module-content">
+                    <h3 class="border-bottom pb-2 mb-4">📋 待辦事項</h3>
+                    <div class="card p-4">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <h5 class="text-warning border-bottom pb-2">👤 個人待辦事項</h5>
+                                <div id="personal-todo-list">
+                                    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="t1"><label class="form-check-label" for="t1">追蹤最新地籍圖與送件進度</label></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="text-danger border-bottom pb-2">📤 委託待辦 (交辦給別人)</h5>
+                                <div class="input-group input-group-sm mb-2">
+                                    <span class="input-group-text">指派給</span><input type="text" class="form-control" name="todo_assignee" placeholder="林經理">
+                                </div>
+                                <input type="text" class="form-control form-control-sm" name="todo_task" placeholder="輸入交辦任務內容...">
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="text-info border-bottom pb-2">📥 受託待辦 (別人交代我)</h5>
+                                <div class="alert alert-info py-2" id="received-todo">暫無受託任務。登入特定員工後將自動過濾。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [模組四] 會議記錄 -->
+                <div id="module-meetings" class="module-content">
+                    <h3 class="border-bottom pb-2 mb-4">📝 會議記錄</h3>
+                    <div class="card p-4">
+                        <div class="row g-3">
+                            <div class="col-md-4"><label class="form-label">會議類型</label><select class="form-select" name="meet_type"><option>睿立內部會議</option><option>工廠客戶會議</option><option>供應鏈合作會議</option></select></div>
+                            <div class="col-md-4"><label class="form-label">日期/時間/地點</label><input type="text" class="form-control" name="meet_meta" placeholder="2026-06-23 辦公室"></div>
+                            <div class="col-md-4"><label class="form-label">會議名稱</label><input type="text" class="form-control" name="meet_name" placeholder="改善計畫書第三次校正會議"></div>
+                            <div class="col-md-12"><label class="form-label">會議議程與詳細內容</label><textarea class="form-control" name="meet_content" rows="3"></textarea></div>
+                            <div class="col-md-12"><label class="form-label">決議與股東意見備忘</label><textarea class="form-control" name="meet_conclusion" rows="3" placeholder="結論、股東意見、建議內容"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [模組五] 提案書系統 -->
+                <div id="module-proposal" class="module-content">
+                    <h3 class="border-bottom pb-2 mb-4">💡 提案書系統 (八大結構)</h3>
+                    <div class="accordion" id="propAcc">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">一、過往案能與基礎資料</button></h2>
+                            <div id="c1" class="accordion-collapse collapse show p-3">
+                                <div class="row g-2">
+                                    <div class="col-md-4"><label class="form-label">提案人</label><input type="text" class="form-control" name="prop_author"></div>
+                                    <div class="col-md-4"><label class="form-label">提案日期</label><input type="date" class="form-control" name="prop_date"></div>
+                                    <div class="col-md-4"><label class="form-label">專案項目名稱</label><input type="text" class="form-control" name="prop_title"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">二、專案內容與落後急迫性</button></h2>
+                            <div id="c2" class="accordion-collapse collapse p-3">
+                                <label class="form-label">構想目的 (範例：關廠紀錄演講、特登狀況)</label><textarea class="form-control mb-2" name="prop_aim" rows="2"></textarea>
+                                <label class="form-label">對客戶來說是否有去克服落後急迫性？解方為何？</label><textarea class="form-control" name="prop_urgency" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">三、人力資源、拆帳、與供應商評估</button></h2>
+                            <div id="c3" class="accordion-collapse collapse p-3">
+                                <label class="form-label">職位、引介人、佣金分成模式</label><input type="text" class="form-control mb-2" name="prop_hr">
+                                <label class="form-label">供應商評估 (成功案例、為何與該公司合作)</label><textarea class="form-control" name="prop_supplier" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">四、提案 SWOT 分析</button></h2>
+                            <div id="c4" class="accordion-collapse collapse p-3">
+                                <div class="row g-2">
+                                    <div class="col-md-6"><label class="form-label">內部優勢 (優點、優勢項目)</label><input type="text" class="form-control" name="swot_s"></div>
+                                    <div class="col-md-6"><label class="form-label">內部劣勢 (需要突破什麼)</label><input type="text" class="form-control" name="swot_w"></div>
+                                    <div class="col-md-6"><label class="form-label">外部機會 (獨特銷售主張、市場機會)</label><input type="text" class="form-control" name="swot_o"></div>
+                                    <div class="col-md-6"><label class="form-label">外部威脅 (同業競爭、法規變動)</label><input type="text" class="form-control" name="swot_t"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">五、行動方案與六、財務評估</button></h2>
+                            <div id="c5" class="accordion-collapse collapse p-3">
+                                <label class="form-label">行銷方式與成本 (範例：DM、專題教授、網路廣告)</label><input type="text" class="form-control mb-2" name="prop_marketing">
+                                <label class="form-label">財務模式 (人事成本、預計獲利模式、股東拆帳機制)</label><textarea class="form-control" name="prop_finance" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7">七、內部核心落地服務（服務1至服務4）</button></h2>
+                            <div id="c7" class="accordion-collapse collapse p-3"><textarea class="form-control" name="prop_services" rows="2" placeholder="請詳細列出核心服務落地細節..."></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [模組六] 行事曆 -->
+                <div id="module-calendar" class="module-content">
+                    <h3 class="border-bottom pb-2 mb-4">📅 共同行動行事曆</h3>
+                    <div class="card p-5 text-center bg-light">
+                        <h5 class="text-muted"><i class="bi bi-cloud-check me-2"></i>連動中心</h5>
+                        <p class="small text-muted mt-2">點擊下方儲存後，所有會議時程與請款日期將自動拋對接資料鏈。</p>
+                    </div>
+                </div>
+
+                <!-- 核心提交按鈕區 -->
+                <div class="mt-4 border-top pt-3 d-flex gap-2">
+                    <button type="button" class="btn btn-primary lg" id="btnSave" onclick="saveDataToGoogle()"><i class="bi bi-cloud-upload me-2"></i>儲存變更 (上傳資料)</button>
+                    <button type="button" class="btn btn-success lg" onclick="alert('🔔 LINE 通知已依據當前用戶過濾並發送！')"><i class="bi bi-line me-2"></i>發送 LINE 通知</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // 模擬上傳檔案後顯示檔名
-    function showFileName(input, targetId) {
-        const fileList = input.files;
-        if(fileList.length > 0) {
-            document.getElementById(targetId).innerHTML = '✓ 已準備上傳：' + fileList[0].name;
+    let currentRole = "訪客";
+
+    // 網頁開啟時，自動彈出多角色選單 (致敬 image_16 樣式)
+    window.addEventListener('DOMContentLoaded', () => {
+        const myModal = new bootstrap.Modal(document.getElementById('welcomeModal'));
+        myModal.show();
+    });
+
+    // 確定登入身份，執行「跟你有關」的選項過濾
+    function loginAsUser() {
+        const select = document.getElementById('userSelect');
+        if(!select.value) { alert('請選擇一個身份！'); return; }
+        currentRole = select.value;
+        applyRoleFiltering();
+        bootstrap.Modal.getInstance(document.getElementById('welcomeModal')).hide();
+    }
+
+    function loginAsGuest() {
+        currentRole = "訪客";
+        applyRoleFiltering();
+        bootstrap.Modal.getInstance(document.getElementById('welcomeModal')).hide();
+    }
+
+    // 「跟你管理、跟你相關」的權限核心過濾邏輯
+    function applyRoleFiltering() {
+        document.getElementById('user-badge').innerText = "當前用戶: " + currentRole;
+        document.getElementById('form_operator').value = currentRole;
+        
+        // 股東過濾邏輯
+        if (currentRole === "創辦人" || currentRole === "股東A") {
+            document.querySelectorAll('.filter-shareholder').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.filter-relation').forEach(el => el.style.display = 'block');
+            document.getElementById('received-todo').innerHTML = `<span class="text-success">✓ 您是股東階層，擁有全局審查權限</span>`;
+        } 
+        // 員工過濾邏輯 (例如：林經理進來，只能看到跟他無關的財務敏感數據被隱藏)
+        else if (currentRole === "林經理") {
+            document.querySelectorAll('.filter-shareholder').forEach(el => el.style.display = 'none'); // 隱藏股東精準報價
+            document.querySelectorAll('.filter-relation').forEach(el => el.style.display = 'block');
+            document.getElementById('received-todo').innerHTML = `<div class="text-danger">⚠️ 創辦人交辦：請在下週二前取得最新地籍圖。</div>`;
+        } else {
+            // 訪客或未選權限限制
+            document.querySelectorAll('.filter-shareholder').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.filter-relation').forEach(el => el.style.display = 'none');
         }
     }
-    // 模擬 LINE 通知
-    function sendLineNotification() {
-        alert('🔔 睿立秘書提示：\n已成功將「睿立實業」最新進度與請款提醒，發送至創辦人 LINE 帳號！');
+
+    // 側邊欄切換
+    function switchModule(modId) {
+        document.querySelectorAll('.module-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#main-nav .nav-link').forEach(el => el.classList.remove('active'));
+        document.getElementById('module-' + modId).classList.add('active');
+        event.currentTarget.classList.add('active');
     }
-    // 顯示時間
-    document.getElementById('live-time').innerText = new Date().toLocaleDateString('zh-TW') + ' ' + new Date().toLocaleTimeString('zh-TW');
+
+    // 【重要：路徑 A 的大腦，點擊儲存寫入 Google 試算表】
+    function saveDataToGoogle() {
+        const btn = document.getElementById('btnSave');
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> 正在儲存至 Google 試算表...`;
+
+        const form = document.getElementById('secretaryForm');
+        const formData = new FormData(form);
+        
+        // 這是預留給您貼上 Google Apps Script 網址的地方
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; 
+
+        if(scriptURL.includes('YOUR_GOOGLE')) {
+            // 尚未綁定時的模擬成功狀態（讓您前端不中斷）
+            setTimeout(() => {
+                showTopAlert('✓ 儲存成功！(前端資料驗證正確，已做好串接 Google 表格與 NAS 落地準備！)', 'success');
+                btn.disabled = false;
+                btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (上傳資料)`;
+            }, 1200);
+            return;
+        }
+
+        // 真正發送端
+        fetch(scriptURL, { method: 'POST', body: formData })
+        .then(res => {
+            showTopAlert('🎉 恭喜！資料已成功寫入您的 Google 試算表大腦！', 'success');
+            btn.disabled = false;
+            btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (上傳資料)`;
+        })
+        .catch(err => {
+            showTopAlert('連線失敗，請檢查網路或 Google 腳本設定。', 'danger');
+            btn.disabled = false;
+            btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (上傳資料)`;
+        });
+    }
+
+    function showTopAlert(msg, type) {
+        document.getElementById('alert-box').innerHTML = `<div class="alert alert-${type} alert-dismissible fade show">${msg}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+    }
 </script>
 </body>
 </html>
