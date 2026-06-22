@@ -309,7 +309,7 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold text-dark">七、專案服務費用</label>
-                            <textarea class="form-control" name="prop_section_7" rows="3" placeholder="請明列階段性合約金額與「不通過不收費」之 altruism 專業承諾條款..."></textarea>
+                            <textarea class="form-control" name="prop_section_7" rows="3" placeholder="請明列階段性合約金額與「不通過不收費」之專業承諾條款..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -503,7 +503,7 @@
         const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; 
         if(scriptURL.includes('YOUR_GOOGLE')) {
             setTimeout(() => {
-                document.getElementById('alert-box').innerHTML = `<div class="alert alert-success alert-dismissible fade show">✓ 睿立提案書欄位還原成功！請將 Google 應用的網址填回代碼中即可開通雲端儲存！<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+                document.getElementById('alert-box').innerHTML = `<div class="alert alert-success alert-dismissible fade show">✓ 睿立提案書欄位還原成功！請將 Google 應用的網址填回代碼中即可開通雲端儲存！<button type="button" class="btn-close" data-bs-alert="close"></button></div>`;
                 btn.disabled = false;
                 btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (同步雲端大腦)`;
             }, 1000);
