@@ -130,18 +130,39 @@
                 </div>
             </section>
 
-            <!-- 2. 行銷模組 -->
+            <!-- 2. 行銷模組 (已加入 AI 互動生成功能) -->
             <section id="tab-marketing" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
                         <h3 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-robot text-purple-600 mr-2"></i> Threads (脆) 話題爬蟲與 AI 腳本</h3>
-                        <p class="text-xs text-slate-500">自動抓取市場熱門討論，一鍵生成獲客貼文與短影音腳本。</p>
-                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100 space-y-2">
-                            <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-medium">熱門痛點偵測</span>
-                            <p class="text-sm font-medium text-slate-800">「土地變更卡關、地主不知道怎麼合法節稅...」</p>
-                            <button class="mt-2 w-full bg-purple-600 hover:bg-purple-700 text-white text-sm py-2 rounded-lg transition font-medium"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> AI 自動生成專業行銷腳本</button>
+                        <p class="text-xs text-slate-500">自動抓取市場熱門討論，點擊按鈕即可測試 AI 即時生成行銷貼文。</p>
+                        
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded font-medium">抓取自 Threads 熱門話題</span>
+                                <span class="text-xs text-slate-400">剛剛更新</span>
+                            </div>
+                            <p class="text-sm font-medium text-slate-800">🔥「農地變更流程到底要卡多久？很多地主不知道送件的黃金期...」</p>
+                            
+                            <!-- 互動生成按鈕 -->
+                            <button onclick="generateAiScript()" id="ai-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white text-sm py-2.5 rounded-lg transition font-medium shadow-sm flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>AI 自動生成行銷腳本</span>
+                            </button>
+                        </div>
+
+                        <!-- AI 生成結果顯示區 -->
+                        <div id="ai-result-box" class="hidden p-4 bg-purple-50 rounded-lg border border-purple-200 space-y-2 animate-fadeIn">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-purple-900"><i class="fa-solid fa-check-circle mr-1 text-purple-600"></i> AI 產出的 Threads 貼文範本：</span>
+                                <button onclick="copyScript()" class="text-xs bg-white text-purple-700 border border-purple-300 px-2 py-0.5 rounded hover:bg-purple-100">複製文案</button>
+                            </div>
+                            <p id="ai-text-content" class="text-xs text-slate-700 leading-relaxed font-sans bg-white p-3 rounded border border-purple-100">
+                                <!-- 動態填入 -->
+                            </p>
                         </div>
                     </div>
+
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
                         <h3 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-funnel-dollar text-emerald-600 mr-2"></i> 獲客與轉換漏斗</h3>
                         <div class="space-y-3 pt-2">
@@ -277,25 +298,20 @@
         </div>
     </main>
 
-    <!-- 頁籤切換 JavaScript -->
+    <!-- 互動邏輯與頁籤切換 JavaScript -->
     <script>
         function switchTab(tabId) {
-            // 隱藏所有頁籤內容
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            // 移除所有按鈕樣式
             document.querySelectorAll('.tab-btn').forEach(el => {
                 el.classList.remove('bg-blue-600', 'text-white');
                 el.classList.add('hover:bg-slate-800');
             });
             
-            // 顯示目標頁籤
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             
-            // 點擊的按鈕加上主色
             event.currentTarget.classList.remove('hover:bg-slate-800');
             event.currentTarget.classList.add('bg-blue-600', 'text-white');
 
-            // 改變頂部標題
             const titles = {
                 'dashboard': ['戰情室與年度財報', '即時掌握營運數據、專案毛利與年度收支對比'],
                 'marketing': ['行銷與 AI 腳本中心', 'Threads 自動爬蟲話題與獲客漏斗分析'],
@@ -305,6 +321,46 @@
             };
             document.getElementById('page-title').innerText = titles[tabId][0];
             document.getElementById('page-subtitle').innerText = titles[tabId][1];
+        }
+
+        // AI 自動生成行銷腳本互動功能
+        function generateAiScript() {
+            const btn = document.getElementById('ai-btn');
+            const resultBox = document.getElementById('ai-result-box');
+            const textContent = document.getElementById('ai-text-content');
+
+            // 按鈕轉為讀取狀態
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> AI 正在分析 Threads 話題並生成腳本...`;
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // 模擬 AI 生成內容
+                textContent.innerHTML = `
+                    🌱 <b>【地主必看】農地變更真的像你想的那麼難嗎？</b><br><br>
+                    最近在 Threads 上看到很多地主在討論土地卡關的問題。其實，只要掌握法規黃金期，很多繁瑣流程都可以迎刃而解！<br><br>
+                    ✨ <b>睿立集團三大安心保證：</b><br>
+                    1. 專人代書全程協同，進度透明絕不黑箱。<br>
+                    2. 嚴謹合約與稅別規劃，幫您把關每一分利潤。<br>
+                    3. 完整工廠與法規資訊支援，建立百分百信任。<br><br>
+                    💬 <b>留言「+1」或私訊我們</b>，讓睿立專業顧問團隊幫您免費評估您的土地資產潛力！👇<br><br>
+                    #土地變更 #農地活用 #資產顧問 #睿立集團 #地主節稅
+                `;
+                
+                // 顯示結果區塊
+                resultBox.classList.remove('hidden');
+                
+                // 按鈕恢復原狀
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 重新生成一組腳本`;
+                btn.disabled = false;
+            }, 1000); // 模擬 1 秒鐘生成延遲
+        }
+
+        // 複製腳本按鈕功能
+        function copyScript() {
+            const text = document.getElementById('ai-text-content').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已成功複製行銷文案到剪貼簿！');
+            });
         }
     </script>
 </body>
