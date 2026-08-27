@@ -3,45 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>睿立集團｜Apple 極簡風格系統</title>
+    <title>睿立集團｜溫潤極簡風管理系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-[#F5F5F7] text-[#1d1d1f] flex h-screen overflow-hidden font-sans">
+<body class="bg-[#FBF9F5] text-stone-800 flex h-screen overflow-hidden font-sans">
 
-    <!-- 側邊導覽列 (蘋果無印白灰風) -->
-    <aside class="w-64 bg-white/80 backdrop-blur-md text-[#1d1d1f] flex flex-col justify-between hidden md:flex border-r border-[#d2d2d7]/60">
+    <!-- 側邊導覽列 (溫潤木炭風) -->
+    <aside class="w-64 bg-[#2C2A29] text-stone-300 flex flex-col justify-between hidden md:flex border-r border-stone-800">
         <div>
-            <div class="p-6 border-b border-[#d2d2d7]/40 flex items-center space-x-3">
-                <div class="bg-[#0071e3] text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-xs">睿</div>
+            <div class="p-6 border-b border-stone-800 flex items-center space-x-3">
+                <div class="bg-[#D4A373] text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-xs">睿</div>
                 <div>
-                    <h1 class="text-[#1d1d1f] font-bold tracking-tight text-sm">睿立集團</h1>
-                    <p class="text-[10px] text-[#86868b]">APPLE-STYLE ERP</p>
+                    <h1 class="text-white font-bold tracking-wider text-sm">睿立集團</h1>
+                    <p class="text-[10px] text-stone-400">RUILI WARM ERP</p>
                 </div>
             </div>
-            <nav class="p-4 space-y-1">
-                <button onclick="switchTab('dashboard')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#0071e3] text-white font-medium transition shadow-xs"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
-                <button onclick="switchTab('marketing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-[#e8e8ed] text-[#1d1d1f] transition"><i class="fa-solid fa-bullhorn w-5"></i><span>行銷與 AI 腳本</span></button>
-                <button onclick="switchTab('crm')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-[#e8e8ed] text-[#1d1d1f] transition"><i class="fa-solid fa-address-book w-5"></i><span>案件與 CRM (報價)</span></button>
-                <button onclick="switchTab('operations')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-[#e8e8ed] text-[#1d1d1f] transition"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
-                <button onclick="switchTab('closing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-[#e8e8ed] text-[#1d1d1f] transition"><i class="fa-solid fa-file-invoice-dollar w-5"></i><span>請款與結案中心</span></button>
+            <nav class="p-4 space-y-1.5">
+                <button onclick="switchTab('dashboard')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#D4A373] text-white transition shadow-xs"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
+                <button onclick="switchTab('marketing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-bullhorn w-5"></i><span>行銷與 AI 腳本</span></button>
+                <button onclick="switchTab('crm')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-address-book w-5"></i><span>案件與 CRM (報價)</span></button>
+                <button onclick="switchTab('operations')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
+                <button onclick="switchTab('closing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-file-invoice-dollar w-5"></i><span>請款與結案中心</span></button>
             </nav>
         </div>
-        <div class="p-4 border-t border-[#d2d2d7]/40 text-xs text-[#86868b] flex items-center justify-between">
+        <div class="p-4 border-t border-stone-800 text-xs text-stone-400 flex items-center justify-between">
             <span>身分：<strong>管理者</strong></span>
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="inline-block w-2 h-2 rounded-full bg-[#D4A373] animate-pulse"></span>
         </div>
     </aside>
 
     <!-- 主畫面內容 -->
     <main class="flex-1 flex flex-col h-full overflow-y-auto">
-        <header class="bg-white/70 backdrop-blur-md border-b border-[#d2d2d7]/60 px-8 py-4 flex justify-between items-center sticky top-0 z-10">
+        <header class="bg-[#FBF9F5] border-b border-stone-200 px-8 py-5 flex justify-between items-center">
             <div>
-                <h2 id="page-title" class="text-xl font-bold text-[#1d1d1f] tracking-tight">戰情室與年度財報</h2>
-                <p id="page-subtitle" class="text-xs text-[#86868b] mt-0.5">即時掌握營運數據、專案毛利與年度收支對比</p>
+                <h2 id="page-title" class="text-xl font-bold text-stone-900 tracking-tight">戰情室與年度財報</h2>
+                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">即時掌握營運數據、專案毛利與年度收支對比</p>
             </div>
             <div class="flex items-center space-x-4">
-                <span class="text-xs bg-[#e8f8f0] text-[#00875a] font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-shield-halved mr-1"></i> 系統連線正常</span>
+                <span class="text-xs bg-[#E9EDC9] text-stone-700 font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-shield-halved mr-1"></i> 系統連線正常</span>
             </div>
         </header>
 
@@ -49,73 +49,73 @@
             <!-- 1. 戰情室 -->
             <section id="tab-dashboard" class="tab-content space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50 shadow-2xs">
-                        <p class="text-xs font-semibold text-[#86868b] uppercase tracking-wider">2026 總簽約金額</p>
-                        <h4 class="text-2xl font-bold text-[#1d1d1f] mt-2">NT$ 24,500,000</h4>
-                        <span class="text-xs text-[#00875a] font-medium mt-1 inline-block">較去年同期 +18%</span>
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
+                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">2026 總簽約金額</p>
+                        <h4 class="text-2xl font-bold text-stone-900 mt-2">NT$ 24,500,000</h4>
+                        <span class="text-xs text-amber-700 font-medium mt-1 inline-block">較去年同期 +18%</span>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50 shadow-2xs">
-                        <p class="text-xs font-semibold text-[#86868b] uppercase tracking-wider">專案預估毛利</p>
-                        <h4 class="text-2xl font-bold text-[#0071e3] mt-2">NT$ 18,200,000</h4>
-                        <span class="text-xs text-[#86868b] mt-1 inline-block">平均毛利率 74.2%</span>
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
+                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">專案預估毛利</p>
+                        <h4 class="text-2xl font-bold text-[#D4A373] mt-2">NT$ 18,200,000</h4>
+                        <span class="text-xs text-stone-500 mt-1 inline-block">平均毛利率 74.2%</span>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50 shadow-2xs">
-                        <p class="text-xs font-semibold text-[#86868b] uppercase tracking-wider">進行中案件數</p>
-                        <h4 class="text-2xl font-bold text-[#1d1d1f] mt-2">14 件</h4>
-                        <span class="text-xs text-[#b25000] font-medium mt-1 inline-block">2 件即將逾期</span>
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
+                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">進行中案件數</p>
+                        <h4 class="text-2xl font-bold text-stone-900 mt-2">14 件</h4>
+                        <span class="text-xs text-amber-600 font-medium mt-1 inline-block">2 件即將逾期</span>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50 shadow-2xs">
-                        <p class="text-xs font-semibold text-[#86868b] uppercase tracking-wider">年度淨利預估</p>
-                        <h4 class="text-2xl font-bold text-[#00875a] mt-2">NT$ 11,200,000</h4>
-                        <span class="text-xs text-[#86868b] mt-1 inline-block">扣除公司固定支出後</span>
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
+                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">年度淨利預估</p>
+                        <h4 class="text-2xl font-bold text-emerald-700 mt-2">NT$ 11,200,000</h4>
+                        <span class="text-xs text-stone-500 mt-1 inline-block">扣除公司固定支出後</span>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-[#d2d2d7]/50 shadow-2xs overflow-hidden">
-                    <div class="p-6 border-b border-[#d2d2d7]/40 flex justify-between items-center">
-                        <h3 class="font-bold text-[#1d1d1f]"><i class="fa-solid fa-file-excel text-[#0071e3] mr-2"></i> 歷年損益與財報對照表 (YoY)</h3>
-                        <span class="text-xs text-[#86868b]">每年 12/31 自動快照封存</span>
+                <div class="bg-white rounded-2xl border border-stone-200/80 shadow-2xs overflow-hidden">
+                    <div class="p-6 border-b border-stone-100 flex justify-between items-center">
+                        <h3 class="font-bold text-stone-800"><i class="fa-solid fa-file-excel text-[#D4A373] mr-2"></i> 歷年損益與財報對照表 (YoY)</h3>
+                        <span class="text-xs text-stone-400">每年 12/31 自動快照封存</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-[#f5f5f7] text-[#86868b] text-xs uppercase border-b border-[#d2d2d7]/40">
+                                <tr class="bg-stone-50/70 text-stone-500 text-xs uppercase border-b border-stone-200">
                                     <th class="p-4">財務指標</th>
                                     <th class="p-4">2024 年 (已封存)</th>
                                     <th class="p-4">2025 年 (已封存)</th>
-                                    <th class="p-4 text-[#0071e3]">2026 年 (即時結算)</th>
+                                    <th class="p-4 text-[#D4A373]">2026 年 (即時結算)</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-sm divide-y divide-[#d2d2d7]/30">
+                            <tbody class="text-sm divide-y divide-stone-100">
                                 <tr>
-                                    <td class="p-4 font-medium text-[#1d1d1f]">總營業收入 (Revenue)</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 12,000,000</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 15,500,000</td>
-                                    <td class="p-4 font-semibold text-[#0071e3]">NT$ 24,500,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 font-medium text-[#1d1d1f]">(-) 專案直接成本</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 2,000,000</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 2,500,000</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 6,300,000</td>
-                                </tr>
-                                <tr class="bg-[#f5f5f7]/50">
-                                    <td class="p-4 font-bold text-[#1d1d1f]">(=) 專案毛利 (Gross Profit)</td>
-                                    <td class="p-4 font-bold text-[#1d1d1f]">NT$ 10,000,000</td>
-                                    <td class="p-4 font-bold text-[#1d1d1f]">NT$ 13,000,000</td>
-                                    <td class="p-4 font-bold text-[#0071e3]">NT$ 18,200,000</td>
+                                    <td class="p-4 font-medium text-stone-700">總營業收入 (Revenue)</td>
+                                    <td class="p-4">NT$ 12,000,000</td>
+                                    <td class="p-4">NT$ 15,500,000</td>
+                                    <td class="p-4 font-semibold text-[#D4A373]">NT$ 24,500,000</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-medium text-[#1d1d1f]">(-) 公司年度總支出 (人事/租金等)</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 6,000,000</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 7,000,000</td>
-                                    <td class="p-4 text-[#86868b]">NT$ 7,000,000</td>
+                                    <td class="p-4 font-medium text-stone-700">(-) 專案直接成本</td>
+                                    <td class="p-4">NT$ 2,000,000</td>
+                                    <td class="p-4">NT$ 2,500,000</td>
+                                    <td class="p-4">NT$ 6,300,000</td>
                                 </tr>
-                                <tr class="bg-[#e8f8f0]/40">
-                                    <td class="p-4 font-bold text-[#00875a]">(=) 年度淨利 / 盈餘 (Net Profit)</td>
-                                    <td class="p-4 font-bold text-[#00875a]">NT$ 4,000,000</td>
-                                    <td class="p-4 font-bold text-[#00875a]">NT$ 6,000,000</td>
-                                    <td class="p-4 font-bold text-[#00875a] text-lg">NT$ 11,200,000</td>
+                                <tr class="bg-stone-50/40">
+                                    <td class="p-4 font-bold text-stone-900">(=) 專案毛利 (Gross Profit)</td>
+                                    <td class="p-4 font-bold">NT$ 10,000,000</td>
+                                    <td class="p-4 font-bold">NT$ 13,000,000</td>
+                                    <td class="p-4 font-bold text-[#D4A373]">NT$ 18,200,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-stone-700">(-) 公司年度總支出 (人事/租金等)</td>
+                                    <td class="p-4">NT$ 6,000,000</td>
+                                    <td class="p-4">NT$ 7,000,000</td>
+                                    <td class="p-4">NT$ 7,000,000</td>
+                                </tr>
+                                <tr class="bg-amber-50/30">
+                                    <td class="p-4 font-bold text-stone-900">(=) 年度淨利 / 盈餘 (Net Profit)</td>
+                                    <td class="p-4 font-bold text-stone-700">NT$ 4,000,000</td>
+                                    <td class="p-4 font-bold text-stone-700">NT$ 6,000,000</td>
+                                    <td class="p-4 font-bold text-emerald-700 text-lg">NT$ 11,200,000</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -126,50 +126,50 @@
             <!-- 2. 行銷模組 -->
             <section id="tab-marketing" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50 shadow-2xs space-y-4">
-                        <h3 class="font-bold text-[#1d1d1f] flex items-center"><i class="fa-solid fa-robot text-[#0071e3] mr-2"></i> Threads (脆) 話題爬蟲與 AI 腳本</h3>
-                        <p class="text-xs text-[#86868b]">自動抓取市場熱門討論，點擊按鈕即可測試 AI 即時生成行銷貼文。</p>
-                        <div class="p-4 bg-[#f5f5f7] rounded-xl border border-[#d2d2d7]/40 space-y-3">
-                            <span class="text-xs bg-[#e1f5fe] text-[#0288d1] px-2.5 py-0.5 rounded font-medium">抓取自 Threads 熱門話題</span>
-                            <p class="text-sm font-medium text-[#1d1d1f]">🔥「農地變更流程到底要卡多久？很多地主不知道送件的黃金期...」</p>
-                            <button onclick="generateAiScript()" id="ai-btn" class="w-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-sm py-2.5 rounded-xl transition font-medium shadow-2xs flex items-center justify-center space-x-2">
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs space-y-4">
+                        <h3 class="font-bold text-stone-800 flex items-center"><i class="fa-solid fa-robot text-[#D4A373] mr-2"></i> Threads (脆) 話題爬蟲與 AI 腳本</h3>
+                        <p class="text-xs text-stone-500">自動抓取市場熱門討論，點擊按鈕即可測試 AI 即時生成行銷貼文。</p>
+                        <div class="p-4 bg-stone-50 rounded-xl border border-stone-200/60 space-y-3">
+                            <span class="text-xs bg-[#EED7C5] text-stone-800 px-2.5 py-0.5 rounded-md font-medium">抓取自 Threads 熱門話題</span>
+                            <p class="text-sm font-medium text-stone-800">🔥「農地變更流程到底要卡多久？很多地主不知道送件的黃金期...」</p>
+                            <button onclick="generateAiScript()" id="ai-btn" class="w-full bg-[#D4A373] hover:bg-[#C28E5F] text-white text-sm py-2.5 rounded-xl transition font-medium shadow-2xs flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-wand-magic-sparkles"></i><span>AI 自動生成行銷腳本</span>
                             </button>
                         </div>
-                        <div id="ai-result-box" class="hidden p-4 bg-[#f5f5f7] rounded-xl border border-[#d2d2d7]/40 space-y-2">
+                        <div id="ai-result-box" class="hidden p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2">
                             <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-[#1d1d1f]"><i class="fa-solid fa-check-circle mr-1 text-[#0071e3]"></i> AI 產出的 Threads 貼文範本：</span>
-                                <button onclick="copyScript()" class="text-xs bg-white text-[#0071e3] border border-[#d2d2d7] px-2 py-0.5 rounded-lg">複製文案</button>
+                                <span class="text-xs font-bold text-stone-800"><i class="fa-solid fa-check-circle mr-1 text-[#D4A373]"></i> AI 產出的 Threads 貼文範本：</span>
+                                <button onclick="copyScript()" class="text-xs bg-white text-stone-700 border border-stone-300 px-2 py-0.5 rounded-lg">複製文案</button>
                             </div>
-                            <p id="ai-text-content" class="text-xs text-[#1d1d1f] leading-relaxed bg-white p-3 rounded-xl border border-[#d2d2d7]/40"></p>
+                            <p id="ai-text-content" class="text-xs text-stone-700 leading-relaxed bg-white p-3 rounded-lg border border-stone-200"></p>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50 shadow-2xs space-y-4">
-                        <h3 class="font-bold text-[#1d1d1f] flex items-center"><i class="fa-solid fa-funnel-dollar text-[#00875a] mr-2"></i> 獲客與轉換漏斗</h3>
+                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs space-y-4">
+                        <h3 class="font-bold text-stone-800 flex items-center"><i class="fa-solid fa-funnel-dollar text-emerald-700 mr-2"></i> 獲客與轉換漏斗</h3>
                         <div class="space-y-3 pt-2">
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>認識 (流量曝光)</span><span>1,200 人</span></div><div class="w-full bg-[#f5f5f7] h-2 rounded-full overflow-hidden"><div class="bg-[#0071e3] h-full w-full"></div></div></div>
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>喜歡 (互動諮詢)</span><span>450 人 (37%)</span></div><div class="w-full bg-[#f5f5f7] h-2 rounded-full overflow-hidden"><div class="bg-[#0071e3] h-full w-3/4"></div></div></div>
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>信任 (深度諮詢/報價)</span><span>85 人 (18%)</span></div><div class="w-full bg-[#f5f5f7] h-2 rounded-full overflow-hidden"><div class="bg-[#0071e3] h-full w-1/2"></div></div></div>
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>追隨 (正式簽約成交)</span><span>18 人 (21%)</span></div><div class="w-full bg-[#f5f5f7] h-2 rounded-full overflow-hidden"><div class="bg-[#00875a] h-full w-1/4"></div></div></div>
+                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>認識 (流量曝光)</span><span>1,200 人</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-[#D4A373] h-full w-full"></div></div></div>
+                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>喜歡 (互動諮詢)</span><span>450 人 (37%)</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-[#D4A373] h-full w-3/4"></div></div></div>
+                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>信任 (深度諮詢/報價)</span><span>85 人 (18%)</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-[#D4A373] h-full w-1/2"></div></div></div>
+                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>追隨 (正式簽約成交)</span><span>18 人 (21%)</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-emerald-700 h-full w-1/4"></div></div></div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- 其他頁籤內容預留 -->
-            <section id="tab-crm" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50"><h3 class="font-bold">案件管理與 CRM</h3></div></section>
-            <section id="tab-operations" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50"><h3 class="font-bold">簽約與工作看板</h3></div></section>
-            <section id="tab-closing" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-[#d2d2d7]/50"><h3 class="font-bold">請款與結案中心</h3></div></section>
+            <section id="tab-crm" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">案件管理與 CRM</h3></div></section>
+            <section id="tab-operations" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">簽約與工作看板</h3></div></section>
+            <section id="tab-closing" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">請款與結案中心</h3></div></section>
         </div>
     </main>
 
     <script>
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => { el.classList.remove('bg-[#0071e3]', 'text-white'); el.classList.add('hover:bg-[#e8e8ed]', 'text-[#1d1d1f]'); });
+            document.querySelectorAll('.tab-btn').forEach(el => { el.classList.remove('bg-[#D4A373]', 'text-white'); el.classList.add('hover:bg-stone-800'); });
             document.getElementById('tab-' + tabId).classList.remove('hidden');
-            event.currentTarget.classList.remove('hover:bg-[#e8e8ed]', 'text-[#1d1d1f]');
-            event.currentTarget.classList.add('bg-[#0071e3]', 'text-white');
+            event.currentTarget.classList.remove('hover:bg-stone-800');
+            event.currentTarget.classList.add('bg-[#D4A373]', 'text-white');
         }
         function generateAiScript() {
             const btn = document.getElementById('ai-btn');
