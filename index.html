@@ -1,526 +1,311 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>睿立秘書系統</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f8f9fa; }
-        .sidebar { background-color: #212529; color: white; padding: 15px; }
-        .sidebar .nav-link { color: #adb5bd; border-radius: 5px; margin-bottom: 5px; cursor: pointer; display: inline-block; padding: 8px 12px; }
-        .sidebar .nav-link.active { color: white; background-color: #0d6efd; }
-        .sidebar .nav-link:hover { color: white; background-color: #343a40; }
-        @media (min-width: 768px) {
-            .sidebar { min-height: 100vh; position: fixed; width: 16.666667%; top: 0; left: 0; z-index: 1000; }
-            .sidebar .nav-link { display: block; }
-            .main-content { margin-left: 16.666667%; width: 83.333333%; }
-        }
-        .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .module-content { display: none; }
-        .module-content.active { display: block; }
-        .company-item { cursor: pointer; transition: 0.2s; text-align: left; }
-        .company-item:hover, .company-item.active { background-color: #e9ecef; font-weight: bold; }
-        
-        @media print {
-            body * { visibility: hidden; }
-            .print-area, .print-area * { visibility: visible; }
-            .print-area { position: absolute; left: 0; top: 0; width: 100%; }
-            .btn, .sidebar, #alert-box, .no-print { display: none !important; }
-        }
-    </style>
+    <title>睿立集團｜新版營運戰情與案件管理系統</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 flex h-screen overflow-hidden">
 
-<div class="modal fade" id="welcomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-4" style="border-radius: 16px;">
-            <div class="text-center mb-2">
-                <span class="text-danger fw-bold small" style="letter-spacing: 2px;">WELCOME</span>
-                <h3 class="fw-bold mt-2">歡迎來到睿立集團</h3>
-                <p class="text-muted small mt-3">請選取您的名字以開始使用：</p>
+    <!-- 側邊導覽列 -->
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
+        <div>
+            <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+                <div class="bg-blue-600 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-xl">睿</div>
+                <div>
+                    <h1 class="text-white font-bold tracking-wider">睿立集團</h1>
+                    <p class="text-xs text-slate-500">RUILI ERP SYSTEM</p>
+                </div>
             </div>
-            <div class="modal-body">
-                <select class="form-select form-select-lg mb-4" id="userSelect">
-                    <option value="" disabled selected>— 點此選取名字 —</option>
-                    <option value="楊裕憲">楊裕憲</option>
-                    <option value="陳宥騰">陳宥騰</option>
-                    <option value="鄭家承">鄭家承</option>
-                    <option value="樊靖畇">樊靖畇</option>
-                    <option value="楊淯淳">楊淯淳</option>
-                </select>
-                <button type="button" class="btn btn-dark w-100 py-3 fw-bold" onclick="loginAsUser()">登入系統</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2 sidebar">
-            <h5 class="text-center my-2 text-white">🏢 睿立秘書系統</h5>
-            <div class="text-center text-warning small mb-3" id="user-badge">當前用戶: 訪客</div>
-            <hr class="d-none d-md-block">
-            <nav class="nav flex-column" id="main-nav">
-                <a class="nav-link active" onclick="switchModule('cases')"><i class="bi bi-folder-fill me-2"></i> 案件管理</a>
-                <a class="nav-link" onclick="switchModule('evaluation')"><i class="bi bi-balance me-2"></i> 案件評估</a>
-                <a class="nav-link" onclick="switchModule('todos')"><i class="bi bi-check2-square me-2"></i> 待辦事項</a>
-                <a class="nav-link" onclick="switchModule('meetings')"><i class="bi bi-file-earmark-text me-2"></i> 會議記錄</a>
-                <a class="nav-link" onclick="switchModule('proposal')"><i class="bi bi-lightbulb me-2"></i> 提案書系統</a>
-                <a class="nav-link" onclick="switchModule('calendar')"><i class="bi bi-calendar3 me-2"></i> 行事曆 (TimeTree)</a>
+            <nav class="p-4 space-y-1">
+                <button onclick="switchTab('dashboard')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-blue-600 text-white transition"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
+                <button onclick="switchTab('marketing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"><i class="fa-solid fa-bullhorn w-5"></i><span>行銷與 AI 腳本</span></button>
+                <button onclick="switchTab('crm')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"><i class="fa-solid fa-address-book w-5"></i><span>案件與 CRM (報價)</span></button>
+                <button onclick="switchTab('operations')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
+                <button onclick="switchTab('closing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition"><i class="fa-solid fa-file-invoice-dollar w-5"></i><span>請款與結案中心</span></button>
             </nav>
         </div>
-
-        <div class="col-md-10 p-4 main-content">
-            <div id="alert-box"></div>
-
-            <form id="secretaryForm">
-                <input type="hidden" id="form_operator" name="form_operator" value="訪客">
-
-                <div id="module-cases" class="module-content active print-area">
-                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2 no-print">
-                        <h3>📂 案件管理</h3>
-                        <div>
-                            <button type="button" class="btn btn-danger btn-sm me-2" onclick="window.print()"><i class="bi bi-printer me-1"></i>匯出/列印案件</button>
-                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addNewCompany()"><i class="bi bi-plus-circle me-1"></i>➕ 新增公司案件</button>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-3 mb-3 no-print">
-                            <div class="input-group mb-2">
-                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-                                <input type="text" class="form-control border-start-0" id="searchCompanyInput" placeholder="🔍 輸入關鍵字尋找客戶..." onkeyup="filterCompanies()">
-                            </div>
-                            <div class="list-group" id="companyList" style="max-height: 600px; overflow-y: auto;">
-                                <button type="button" class="list-group-item list-group-item-action company-item active" onclick="selectCompany('AA')">🏢 AA實業股份有限公司</button>
-                                <button type="button" class="list-group-item list-group-item-action company-item" onclick="selectCompany('BB')">🏢 BB鋼鐵工廠</button>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-9">
-                            <div class="card p-4">
-                                <h5 class="text-primary mb-3"><i class="bi bi-info-circle me-2"></i>基本資料</h5>
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label">公司名稱</label><input type="text" class="form-control" id="comp_name" name="company_name" value="AA實業股份有限公司"></div>
-                                    <div class="col-md-6"><label class="form-label">客戶代表</label><input type="text" class="form-control" id="comp_client" name="client_name" value="張總經理"></div>
-                                    <div class="col-md-6"><label class="form-label">聯絡電話</label><input type="text" class="form-control" id="comp_phone" name="client_phone" value="04-2345XXXX"></div>
-                                    <div class="col-md-6"><label class="form-label">工廠地址</label><input type="text" class="form-control" id="comp_address" name="factory_address" value="台中市工業區"></div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">專案人員</label>
-                                        <select class="form-select user-dropdown-target" name="staff_name"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-3 no-print">
-                                    <h5 class="text-primary m-0"><i class="bi bi-list-task me-2"></i>服務項目與多期財務流</h5>
-                                    <button type="button" class="btn btn-sm btn-secondary" onclick="addNewServiceRow()"><i class="bi bi-plus me-1"></i>➕ 新增服務項目</button>
-                                </div>
-                                <div id="servicesContainer">
-                                    <div class="border rounded p-3 mb-3 bg-light">
-                                        <div class="row g-2 mb-2">
-                                            <div class="col-md-4"><label class="form-label small fw-bold">項目名稱</label><input type="text" class="form-control form-control-sm" name="service_title_1" value="特定工廠登記"></div>
-                                            <div class="col-md-4"><label class="form-label small fw-bold">簽約日期</label><input type="date" class="form-control form-control-sm" name="contract_date_1" value="2026-01-10"></div>
-                                            <div class="col-md-4"><label class="form-label small fw-bold">簽約總金額</label><input type="number" class="form-control form-control-sm" name="contract_price_1" value="500000"></div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label small fw-bold text-success">區域輸入目前狀況</label>
-                                            <textarea class="form-control form-control-sm" name="service_status_1" rows="2" placeholder="輸入目前最新進度、送件狀況..."></textarea>
-                                        </div>
-                                        
-                                        <div class="bg-white p-2 border rounded">
-                                            <div class="d-flex justify-content-between align-items-center mb-2 no-print">
-                                                <span class="small fw-bold text-secondary">💰 收款期程 & 佣金給付配對管理</span>
-                                                <button type="button" class="btn btn-badge btn-xs btn-outline-success" onclick="addNewPaymentRow(this)">➕ 新增一期收款與佣金</button>
-                                            </div>
-                                            <div class="table-responsive">
-                                                <table class="table table-sm table-bordered m-0 align-middle">
-                                                    <thead class="table-light small">
-                                                        <tr><th>期數</th><th>收款金額</th><th>預計收款日</th><th>介紹人</th><th>佣金金額</th><th>佣金給付日</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><span class="small">第1期</span></td>
-                                                            <td><input type="number" class="form-control form-control-sm" placeholder="金額"></td>
-                                                            <td><input type="date" class="form-control form-control-sm"></td>
-                                                            <td><input type="text" class="form-control form-control-sm" placeholder="介紹人"></td>
-                                                            <td><input type="number" class="form-control form-control-sm" placeholder="佣金"></td>
-                                                            <td><input type="date" class="form-control form-control-sm"></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="module-evaluation" class="module-content print-area">
-                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2 no-print">
-                        <h3>⚖️ 案件評估中心</h3>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="window.print()"><i class="bi bi-printer me-1"></i>匯出評估報告</button>
-                    </div>
-                    
-                    <div class="card p-4">
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">委託人 (誰交辦的)</label>
-                                <select class="form-select user-dropdown-target" name="eval_creator"></select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">受託評估人 (誰去評估)</label>
-                                <select class="form-select user-dropdown-target" name="eval_assigned_staff" onchange="triggerLineNotice('案件評估委託成功！已發送 LINE 提醒受託人進行評估。')"></select>
-                            </div>
-                            <div class="col-md-4"><label class="form-label fw-bold">案件名稱</label><input type="text" class="form-control" name="eval_case_name" placeholder="輸入工廠案名..."></div>
-                        </div>
-                        
-                        <div class="mb-3"><label class="form-label fw-bold">案件說明（專案人員填寫）</label><textarea class="form-control" name="eval_case_desc" rows="3" placeholder="請描述工廠現況..."></textarea></div>
-                        <div class="mb-3 bg-light p-3 rounded border">
-                            <label class="form-label fw-bold text-primary">案件回覆（專業人士填寫）</label>
-                            <textarea class="form-control" name="eval_expert_reply" rows="3" placeholder="輸入專業法規判定意見..." onchange="triggerLineNotice('受託人已完成案件評估回覆！已同步 LINE 通知委託人。')"></textarea>
-                        </div>
-                        
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4"><label class="form-label fw-bold">精密報價欄位</label><input type="number" class="form-control" name="eval_case_quote" placeholder="輸入預估報價金額"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">📎 檔案上傳管理（可新增多個檔案）</label>
-                            <div class="file-upload-container">
-                                <div class="input-group mb-2"><input type="file" class="form-control"><button type="button" class="btn btn-outline-secondary" onclick="addNewFileField(this)">➕ 新增檔案</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="module-todos" class="module-content">
-                    <h3 class="border-bottom pb-2 mb-4">📋 待辦任務管理</h3>
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="card p-3 bg-light">
-                                <h5 class="text-warning border-bottom pb-2">👤 個人待辦事項</h5>
-                                <div class="dynamic-todo-container mb-2" id="personalTodoArea">
-                                    <div class="form-check mb-2"><input class="form-check-input" type="checkbox"><label class="form-check-label small">核對最新工廠地籍變更公文</label></div>
-                                </div>
-                                <button type="button" class="btn btn-xs btn-outline-warning w-100" onclick="addNewTodoField('personalTodoArea')">➕ 新增個人代辦與檔案</button>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-3 bg-light">
-                                <h5 class="text-danger border-bottom pb-2">📤 委託待辦 (交辦他人)</h5>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6"><select class="form-select form-select-sm user-dropdown-target" id="assign_from"></select></div>
-                                    <div class="col-6"><select class="form-select form-select-sm user-dropdown-target" id="assign_to" onchange="triggerLineNotice('任務已交辦成功！已發送 LINE 通知受託人。')"></select></div>
-                                </div>
-                                <div class="dynamic-todo-container mb-2" id="delegateTodoArea">
-                                    <input type="text" class="form-control form-control-sm mb-1" placeholder="輸入任務內容...">
-                                    <input type="file" class="form-control form-control-sm mb-2">
-                                </div>
-                                <button type="button" class="btn btn-xs btn-outline-danger w-100" onclick="addNewTodoField('delegateTodoArea')">➕ 新增委託代辦與檔案</button>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-3 bg-light">
-                                <h5 class="text-info border-bottom pb-2">📥 受託待辦 (他人交代)</h5>
-                                <div class="dynamic-todo-container mb-2" id="receivedTodoArea">
-                                    <div class="alert alert-info p-2 small mb-1">任務：審查特定工廠改善計畫書<br><span class="badge bg-secondary">由楊裕憲委託</span></div>
-                                    <textarea class="form-control form-control-sm mb-1" placeholder="輸入回覆進度..." onchange="triggerLineNotice('受託任務已得到進度回覆！已自動 LINE 提醒委託人。')"></textarea>
-                                    <input type="file" class="form-control form-control-sm mb-2">
-                                </div>
-                                <button type="button" class="btn btn-xs btn-outline-info w-100" onclick="addNewTodoField('receivedTodoArea', true)">➕ 新增受託代辦與檔案</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="module-meetings" class="module-content print-area">
-                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2 no-print">
-                        <h3>📝 專案會議記錄書</h3>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="window.print()"><i class="bi bi-printer me-1"></i>🖨️ 一鍵匯出/列印會議記錄</button>
-                    </div>
-                    
-                    <div class="card p-4">
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4"><label class="form-label fw-bold">會議類型</label><select class="form-select" name="meet_type"><option>睿立內部會議</option><option>工廠客戶會議</option><option>供應鏈合作會議</option></select></div>
-                            <div class="col-md-4"><label class="form-label fw-bold">日期 / 時間</label><input type="text" class="form-control" name="meet_datetime" value="2026-06-23 10:00"></div>
-                            <div class="col-md-2"><label class="form-label fw-bold">地點</label><input type="text" class="form-control" name="meet_place" value="總部會議室"></div>
-                            <div class="col-md-2"><label class="form-label fw-bold">自填欄位</label><input type="text" class="form-control" name="meet_custom_1" placeholder="備註或專案代號"></div>
-                        </div>
-                        
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4"><label class="form-label fw-bold">會議名稱</label><input type="text" class="form-control" name="meet_title_name" placeholder="輸入本次會議主題..."></div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">與會人員（睿立同仁）</label>
-                                <select class="form-select user-dropdown-target" name="meet_staff_present"></select>
-                            </div>
-                            <div class="col-md-4"><label class="form-label fw-bold">與會人員（非睿立名單自填）</label><input type="text" class="form-control" name="meet_external_present" placeholder="例如：某工廠董事長..."></div>
-                        </div>
-                        
-                        <div class="mb-3"><label class="form-label fw-bold">會議討論內容 / 議程</label><textarea class="form-control" name="meet_main_content" rows="3"></textarea></div>
-                        <div class="mb-3"><label class="form-label fw-bold">意見提出</label><textarea class="form-control" name="meet_opinions_raised" rows="2"></textarea></div>
-                        <div class="bg-light p-3 rounded border mb-2">
-                            <label class="form-label fw-bold text-danger">🎯 本次會議結論</label>
-                            <textarea class="form-control" name="meet_final_verdict" rows="3"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="module-proposal" class="module-content print-area">
-                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2 no-print">
-                        <h3>💡 提案書系統</h3>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="window.print()"><i class="bi bi-printer me-1"></i>匯出提案書電子檔</button>
-                    </div>
-                    
-                    <div class="card p-4">
-                        <div class="row g-3 mb-4 border-bottom pb-3">
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold text-primary">一、提案人</label>
-                                <select class="form-select user-dropdown-target" name="prop_user_author"></select>
-                            </div>
-                            <div class="col-md-4"><label class="form-label fw-bold text-primary">日期與時間 (自動帶入)</label><input type="text" class="form-control" id="prop_auto_time" name="prop_timestamp" readonly></div>
-                            <div class="col-md-4"><label class="form-label fw-bold text-primary">專案名稱</label><input type="text" class="form-control" name="prop_project_name" placeholder="輸入本案建議名稱..."></div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">二、現況分析</label>
-                            <textarea class="form-control" name="prop_section_2" rows="3" placeholder="請輸入工廠現行土地、建物與ESG法規現況分析..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">三、面臨問題</label>
-                            <textarea class="form-control" name="prop_section_3" rows="3" placeholder="請列出工廠目前急迫需解決的違章、斷水斷電、或裁罰危機問題..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">四、輔導方案與策略流程</label>
-                            <textarea class="form-control" name="prop_section_4" rows="4" placeholder="請敘述睿立提供的短中長期輔導計畫、變更地目或合法化退場流程..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">五、預期效益</label>
-                            <textarea class="form-control" name="prop_section_5" rows="3" placeholder="例如：取得特定工廠登記、免除勒令停工、達成永續轉型..."></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-dark">七、專案服務費用</label>
-                            <textarea class="form-control" name="prop_section_7" rows="3" placeholder="請明列階段性合約金額與「不通過不收費」之專業承諾條款..."></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="module-calendar" class="module-content">
-                    <h3 class="border-bottom pb-2 mb-4">📅 團隊行動行事曆 (TimeTree 連動)</h3>
-                    <div class="card p-2">
-                        <iframe src="https://timetreeapp.com/" style="width:100%; height:700px; border:none; border-radius:8px;"></iframe>
-                    </div>
-                </div>
-
-                <div class="mt-4 border-top pt-3 no-print">
-                    <button type="button" class="btn btn-primary lg" id="btnSave" onclick="saveDataToGoogle()"><i class="bi bi-cloud-upload me-2"></i>儲存變更 (同步雲端大腦)</button>
-                </div>
-            </form>
+        <div class="p-4 border-t border-slate-800 text-xs text-slate-500 flex items-center justify-between">
+            <span>身分：<strong>管理者</strong></span>
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         </div>
-    </div>
-</div>
+    </aside>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const ruiliStaff = ["楊裕憲", "陳宥騰", "鄭家承", "樊靖畇", "楊淯淳"];
-    let currentRole = "訪客";
+    <!-- 主畫面內容 -->
+    <main class="flex-1 flex flex-col h-full overflow-y-auto">
+        <!-- 頂部列 -->
+        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center shadow-xs">
+            <div>
+                <h2 id="page-title" class="text-xl font-bold text-slate-800">戰情室與年度財報</h2>
+                <p id="page-subtitle" class="text-xs text-slate-500">即時掌握營運數據、專案毛利與年度收支對比</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-shield-halved mr-1"></i> 系統連線正常</span>
+            </div>
+        </header>
 
-    let companiesData = {
-        'AA': { name: 'AA實業股份有限公司', client: '張總經理', phone: '04-2345XXXX', address: '台中市工業區' },
-        'BB': { name: 'BB鋼鐵工廠', client: '李董事長', phone: '0912-345678', address: '彰化鹿港園區' }
-    };
+        <!-- 內容頁籤容器 -->
+        <div class="p-8 max-w-7xl mx-auto w-full flex-1">
+            
+            <!-- 1. 戰情室 -->
+            <section id="tab-dashboard" class="tab-content space-y-6">
+                <!-- 數據卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                        <p class="text-xs font-semibold text-slate-400 uppercase">2026 總簽約金額</p>
+                        <h4 class="text-2xl font-bold text-slate-900 mt-2">NT$ 24,500,000</h4>
+                        <span class="text-xs text-emerald-600 font-medium mt-1 inline-block"><i class="fa-solid fa-arrow-up"></i> 較去年同期 +18%</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                        <p class="text-xs font-semibold text-slate-400 uppercase">專案預估毛利</p>
+                        <h4 class="text-2xl font-bold text-blue-600 mt-2">NT$ 18,200,000</h4>
+                        <span class="text-xs text-slate-500 mt-1 inline-block">平均毛利率 74.2%</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                        <p class="text-xs font-semibold text-slate-400 uppercase">進行中案件數</p>
+                        <h4 class="text-2xl font-bold text-slate-900 mt-2">14 件</h4>
+                        <span class="text-xs text-amber-600 font-medium mt-1 inline-block"><i class="fa-solid fa-triangle-exclamation"></i> 2 件即將逾期</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                        <p class="text-xs font-semibold text-slate-400 uppercase">年度淨利預估</p>
+                        <h4 class="text-2xl font-bold text-emerald-600 mt-2">NT$ 11,200,000</h4>
+                        <span class="text-xs text-slate-500 mt-1 inline-block">扣除公司固定支出後</span>
+                    </div>
+                </div>
 
-    window.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.user-dropdown-target').forEach(select => {
-            select.innerHTML = `<option value="" disabled selected>— 請選擇成員名字 —</option>`;
-            ruiliStaff.forEach(name => {
-                select.innerHTML += `<option value="${name}">${name}</option>`;
+                <!-- 財報式損益對照表 -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-file-excel text-emerald-600 mr-2"></i> 歷年損益與財報對照表 (YoY)</h3>
+                        <span class="text-xs text-slate-400">每年 12/31 自動快照封存</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b border-slate-200">
+                                    <th class="p-4">財務指標</th>
+                                    <th class="p-4">2024 年 (已封存)</th>
+                                    <th class="p-4">2025 年 (已封存)</th>
+                                    <th class="p-4 text-blue-600">2026 年 (即時結算)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-slate-100">
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-700">總營業收入 (Revenue)</td>
+                                    <td class="p-4">NT$ 12,000,000</td>
+                                    <td class="p-4">NT$ 15,500,000</td>
+                                    <td class="p-4 font-semibold text-blue-600">NT$ 24,500,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-700">(-) 專案直接成本</td>
+                                    <td class="p-4">NT$ 2,000,000</td>
+                                    <td class="p-4">NT$ 2,500,000</td>
+                                    <td class="p-4">NT$ 6,300,000</td>
+                                </tr>
+                                <tr class="bg-slate-50/50">
+                                    <td class="p-4 font-bold text-slate-900">(=) 專案毛利 (Gross Profit)</td>
+                                    <td class="p-4 font-bold">NT$ 10,000,000</td>
+                                    <td class="p-4 font-bold">NT$ 13,000,000</td>
+                                    <td class="p-4 font-bold text-blue-600">NT$ 18,200,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-700">(-) 公司年度總支出 (人事/租金等)</td>
+                                    <td class="p-4">NT$ 6,000,000</td>
+                                    <td class="p-4">NT$ 7,000,000</td>
+                                    <td class="p-4">NT$ 7,000,000</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-4 font-bold text-emerald-900">(=) 年度淨利 / 盈餘 (Net Profit)</td>
+                                    <td class="p-4 font-bold text-emerald-700">NT$ 4,000,000</td>
+                                    <td class="p-4 font-bold text-emerald-700">NT$ 6,000,000</td>
+                                    <td class="p-4 font-bold text-emerald-700 text-lg">NT$ 11,200,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 行銷模組 -->
+            <section id="tab-marketing" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-robot text-purple-600 mr-2"></i> Threads (脆) 話題爬蟲與 AI 腳本</h3>
+                        <p class="text-xs text-slate-500">自動抓取市場熱門討論，一鍵生成獲客貼文與短影音腳本。</p>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100 space-y-2">
+                            <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-medium">熱門痛點偵測</span>
+                            <p class="text-sm font-medium text-slate-800">「土地變更卡關、地主不知道怎麼合法節稅...」</p>
+                            <button class="mt-2 w-full bg-purple-600 hover:bg-purple-700 text-white text-sm py-2 rounded-lg transition font-medium"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> AI 自動生成專業行銷腳本</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-funnel-dollar text-emerald-600 mr-2"></i> 獲客與轉換漏斗</h3>
+                        <div class="space-y-3 pt-2">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1"><span>認識 (流量曝光)</span><span>1,200 人</span></div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-full"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1"><span>喜歡 (互動諮詢)</span><span>450 人 (37%)</span></div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-blue-600 h-full w-3/4"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1"><span>信任 (深度諮詢/報價)</span><span>85 人 (18%)</span></div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-indigo-600 h-full w-1/2"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1"><span>追隨 (正式簽約成交)</span><span>18 人 (21%)</span></div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-emerald-600 h-full w-1/4"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. CRM 與報價藝術 -->
+            <section id="tab-crm" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-file-contract text-blue-600 mr-2"></i> 案件評估與「報價藝術」建立</h3>
+                        <button class="bg-blue-600 text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition">+ 新增潛在案件</button>
+                    </div>
+                    <p class="text-xs text-slate-500">透過厚實的工廠資訊與詳盡報價項目，徹底贏得客戶信任。</p>
+                    
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-xs text-slate-600 uppercase border-b border-slate-200">
+                                    <th class="p-3">客戶 / 標的名稱</th>
+                                    <th class="p-3">案件類別</th>
+                                    <th class="p-3">信任階段</th>
+                                    <th class="p-3">預估金額</th>
+                                    <th class="p-3">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-slate-100">
+                                <tr>
+                                    <td class="p-3 font-medium">王大明地主 / 台中后里農地變更</td>
+                                    <td class="p-3"><span class="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded">土地變更</span></td>
+                                    <td class="p-3"><span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded font-semibold">信任 (已出報價)</span></td>
+                                    <td class="p-3 font-medium">NT$ 1,800,000</td>
+                                    <td class="p-3"><button class="text-blue-600 hover:underline text-xs font-medium">編輯報價</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 簽約與工作看板 -->
+            <section id="tab-operations" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-clipboard-user text-emerald-600 mr-2"></i> 秘書建檔防呆與作業看板 (含紅綠燈預警)</h3>
+                        <span class="text-xs text-amber-600 bg-amber-50 px-3 py-1 rounded-lg border border-amber-200"><i class="fa-solid fa-bell"></i> Telegram / Bark 推播已啟動</span>
+                    </div>
+
+                    <!-- 看板區塊 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <!-- 欄位 1 -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center font-bold text-sm text-slate-700">
+                                <span>待指派 / 代書審查</span>
+                                <span class="bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded-full">1</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-2xs space-y-2 border-l-4 border-l-emerald-500">
+                                <div class="flex justify-between text-xs text-slate-400"><span>2026-06-15 簽約</span><span class="text-emerald-600 font-bold">🟢 正常</span></div>
+                                <h4 class="font-bold text-sm text-slate-800">桃園楊梅工業地變更專案</h4>
+                                <p class="text-xs text-slate-500">特約：須於 3 個月內取得初審同意書</p>
+                                <div class="pt-2 flex justify-between items-center text-xs text-slate-500">
+                                    <span>介紹人：張代書 (佣金5%)</span>
+                                    <span class="text-blue-600 font-medium">代書協同中</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 欄位 2 -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center font-bold text-sm text-slate-700">
+                                <span>生產作業執行中</span>
+                                <span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">1</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-2xs space-y-2 border-l-4 border-l-red-500">
+                                <div class="flex justify-between text-xs text-slate-400"><span>2026-03-10 簽約</span><span class="text-red-600 font-bold animate-pulse">🔴 逾期 3 天</span></div>
+                                <h4 class="font-bold text-sm text-slate-800">台中七期商辦資產顧問</h4>
+                                <p class="text-xs text-slate-500">NAS 檔案上傳停滯，已發送 Telegram 警報</p>
+                                <div class="pt-2 flex justify-between items-center text-xs text-slate-500">
+                                    <span>負責人：陳專員</span>
+                                    <button class="bg-red-50 text-red-600 px-2 py-1 rounded text-xs font-bold">異常回報</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 欄位 3 -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center font-bold text-sm text-slate-700">
+                                <span>準備結案 / 請款</span>
+                                <span class="bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded-full">0</span>
+                            </div>
+                            <p class="text-xs text-slate-400 text-center py-8">目前無等待結案案件</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. 請款與結案 -->
+            <section id="tab-closing" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+                    <h3 class="font-bold text-slate-800"><i class="fa-solid fa-file-invoice text-purple-600 mr-2"></i> 階段請款與結案報告自動生成</h3>
+                    <p class="text-xs text-slate-500">依據合約簽約日期與付款期程自動產生請款單，結案一鍵產出 Google Doc 正式報告。</p>
+                    
+                    <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full font-medium">待請款節點</span>
+                            <h4 class="font-bold text-base text-slate-800 mt-2">新竹竹北商用土地案 - 第二期尾款</h4>
+                            <p class="text-xs text-slate-500 mt-1">含稅總額：NT$ 3,150,000 (含稅 5%) | 介紹人佣金：NT$ 150,000</p>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="bg-white border border-slate-300 text-slate-700 text-xs px-4 py-2.5 rounded-lg font-medium hover:bg-slate-50 transition">產生請款單</button>
+                            <button class="bg-emerald-600 text-white text-xs px-4 py-2.5 rounded-lg font-medium hover:bg-emerald-700 transition"><i class="fa-solid fa-file-word mr-1"></i> 一鍵產出 Google Doc 結案報告</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- 頁籤切換 JavaScript -->
+    <script>
+        function switchTab(tabId) {
+            // 隱藏所有頁籤內容
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 移除所有按鈕樣式
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-blue-600', 'text-white');
+                el.classList.add('hover:bg-slate-800');
             });
-        });
-        
-        const now = new Date();
-        document.getElementById('prop_auto_time').value = now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes();
+            
+            // 顯示目標頁籤
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            // 點擊的按鈕加上主色
+            event.currentTarget.classList.remove('hover:bg-slate-800');
+            event.currentTarget.classList.add('bg-blue-600', 'text-white');
 
-        new bootstrap.Modal(document.getElementById('welcomeModal')).show();
-    });
-
-    function loginAsUser() {
-        const select = document.getElementById('userSelect');
-        if(!select.value) return;
-        currentRole = select.value;
-        document.getElementById('user-badge').innerText = "當前用戶: " + currentRole;
-        document.getElementById('form_operator').value = currentRole;
-        bootstrap.Modal.getInstance(document.getElementById('welcomeModal')).hide();
-    }
-
-    function switchModule(id) {
-        document.querySelectorAll('.module-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('#main-nav .nav-link').forEach(el => el.classList.remove('active'));
-        document.getElementById('module-' + id).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-
-    function filterCompanies() {
-        let input = document.getElementById('searchCompanyInput').value.toUpperCase();
-        let list = document.getElementById('companyList');
-        let buttons = list.getElementsByTagName('button');
-        for (let i = 0; i < buttons.length; i++) {
-            let text = buttons[i].innerText || buttons[i].textContent;
-            if (text.toUpperCase().indexOf(input) > -1) {
-                buttons[i].style.display = "";
-            } else {
-                buttons[i].style.display = "none";
-            }
+            // 改變頂部標題
+            const titles = {
+                'dashboard': ['戰情室與年度財報', '即時掌握營運數據、專案毛利與年度收支對比'],
+                'marketing': ['行銷與 AI 腳本中心', 'Threads 自動爬蟲話題與獲客漏斗分析'],
+                'crm': ['案件管理與 CRM', '客戶信任歷程與專業報價藝術'],
+                'operations': ['簽約案件與工作看板', '秘書建呆防呆、代書協同與紅綠燈逾期追蹤'],
+                'closing': ['階段請款與結案中心', '合約付款期程管控與 Google Doc 結案報告自動化']
+            };
+            document.getElementById('page-title').innerText = titles[tabId][0];
+            document.getElementById('page-subtitle').innerText = titles[tabId][1];
         }
-    }
-
-    function selectCompany(code) {
-        document.querySelectorAll('.company-item').forEach(el => el.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-        document.getElementById('comp_name').value = companiesData[code].name;
-        document.getElementById('comp_client').value = companiesData[code].client;
-        document.getElementById('comp_phone').value = companiesData[code].phone;
-        document.getElementById('comp_address').value = companiesData[code].address;
-    }
-
-    function addNewCompany() {
-        let name = prompt("請輸入全新客戶工廠完整名稱:");
-        if(!name) return;
-        let code = 'C' + Date.now().toString().slice(-4);
-        companiesData[code] = { name: name, client: '', phone: '', address: '' };
-        
-        let btn = document.createElement('button');
-        btn.type = "button";
-        btn.className = "list-group-item list-group-item-action company-item";
-        btn.innerText = "🏢 " + name;
-        btn.onclick = function() { selectCompany(code); };
-        document.getElementById('companyList').insertBefore(btn, document.getElementById('companyList').firstChild);
-        btn.click();
-    }
-
-    function addNewPaymentRow(btn) {
-        let tbody = btn.closest('.card').querySelector('tbody');
-        let count = tbody.children.length + 1;
-        let tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><span class="small">第${count}期</span></td>
-            <td><input type="number" class="form-control form-control-sm"></td>
-            <td><input type="date" class="form-control form-control-sm"></td>
-            <td><input type="text" class="form-control form-control-sm" placeholder="介紹人"></td>
-            <td><input type="number" class="form-control form-control-sm" placeholder="佣金"></td>
-            <td><input type="date" class="form-control form-control-sm"></td>
-        `;
-        tbody.appendChild(tr);
-    }
-
-    let sIdx = 1;
-    function addNewServiceRow() {
-        sIdx++;
-        let container = document.getElementById('servicesContainer');
-        let block = document.createElement('div');
-        block.className = "border rounded p-3 mb-3 bg-light";
-        block.innerHTML = `
-            <div class="row g-2 mb-2">
-                <div class="col-md-4"><label class="form-label small fw-bold">項目名稱</label><input type="text" class="form-control form-control-sm" name="service_title_${sIdx}"></div>
-                <div class="col-md-4"><label class="form-label small fw-bold">簽約日期</label><input type="date" class="form-control form-control-sm" name="contract_date_${sIdx}"></div>
-                <div class="col-md-4"><label class="form-label small fw-bold">簽約總金額</label><input type="number" class="form-control form-control-sm" name="contract_price_${sIdx}"></div>
-            </div>
-            <div class="mb-2">
-                <label class="form-label small fw-bold text-success">區域輸入目前狀況</label>
-                <textarea class="form-control form-control-sm" name="service_status_${sIdx}" rows="2" placeholder="輸入目前最新進度..."></textarea>
-            </div>
-            <div class="bg-white p-2 border rounded">
-                <div class="d-flex justify-content-between align-items-center mb-2 no-print">
-                    <span class="small fw-bold text-secondary">💰 收款期程 & 佣金給付配對管理</span>
-                    <button type="button" class="btn btn-badge btn-xs btn-outline-success" onclick="addNewPaymentRow(this)">➕ 新增一期收款與佣金</button>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered m-0 align-middle">
-                        <thead class="table-light small">
-                            <tr><th>期數</th><th>收款金額</th><th>預計收款日</th><th>介紹人</th><th>佣金金額</th><th>佣金給付日</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="small">第1期</span></td>
-                                <td><input type="number" class="form-control form-control-sm"></td>
-                                <td><input type="date" class="form-control form-control-sm"></td>
-                                <td><input type="text" class="form-control form-control-sm" placeholder="介紹人"></td>
-                                <td><input type="number" class="form-control form-control-sm" placeholder="佣金"></td>
-                                <td><input type="date" class="form-control form-control-sm"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-        container.appendChild(block);
-    }
-
-    function addNewFileField(btn) {
-        let div = document.createElement('div');
-        div.className = "input-group mb-2";
-        div.innerHTML = `<input type="file" class="form-control"><button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove()">移除</button>`;
-        btn.closest('.file-upload-container').appendChild(div);
-    }
-
-    function addNewTodoField(areaId, isReceived = false) {
-        let area = document.getElementById(areaId);
-        let wrapper = document.createElement('div');
-        wrapper.className = "border p-2 rounded bg-white mb-2 shadow-sm";
-        if(isReceived) {
-            wrapper.innerHTML = `
-                <div class="alert alert-warning p-1 small mb-1">新指派受託事項</div>
-                <textarea class="form-control form-control-sm mb-1" placeholder="輸入回覆進度..." onchange="triggerLineNotice('進度回覆成功！已發送 LINE 提醒委託人。')"></textarea>
-                <input type="file" class="form-control form-control-sm">
-            `;
-        } else {
-            wrapper.innerHTML = `
-                <input type="text" class="form-control form-control-sm mb-1" placeholder="新代辦任務...">
-                <input type="file" class="form-control form-control-sm">
-            `;
-        }
-        area.appendChild(wrapper);
-    }
-
-    function triggerLineNotice(msgText) {
-        let box = document.getElementById('alert-box');
-        box.innerHTML = `<div class="alert alert-success alert-dismissible fade show"><i class="bi bi-line me-2"></i><strong>[LINE 系統同步發送]</strong> ${msgText}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
-    }
-
-    function saveDataToGoogle() {
-        const btn = document.getElementById('btnSave');
-        btn.disabled = true;
-        btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> 全局大腦同步中...`;
-        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; 
-        if(scriptURL.includes('YOUR_GOOGLE')) {
-            setTimeout(() => {
-                document.getElementById('alert-box').innerHTML = `<div class="alert alert-success alert-dismissible fade show">✓ 睿立提案書欄位還原成功！請將 Google 應用的網址填回代碼中即可開通雲端儲存！<button type="button" class="btn-close" data-bs-alert="close"></button></div>`;
-                btn.disabled = false;
-                btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (同步雲端大腦)`;
-            }, 1000);
-            return;
-        }
-        fetch(scriptURL, { method: 'POST', body: new FormData(document.getElementById('secretaryForm')) })
-        .then(res => {
-            document.getElementById('alert-box').innerHTML = `<div class="alert alert-success alert-dismissible fade show">🎉 資料已完美、精確同步至 Google 試算表大腦！<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
-            btn.disabled = false;
-            btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (同步雲端大腦)`;
-        })
-        .catch(err => {
-            alert('連線失敗，請驗證 Google 權限設定。');
-            btn.disabled = false;
-            btn.innerHTML = `<i class="bi bi-cloud-upload me-2"></i>儲存變更 (同步雲端大腦)`;
-        });
-    }
-</script>
+    </script>
 </body>
 </html>
