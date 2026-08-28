@@ -3,320 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>睿立集團｜溫潤極簡風與精密營運管理系統</title>
+    <title>睿立集團｜精密營運管理與互動系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-[#FBF9F5] text-stone-800 flex h-screen overflow-hidden font-sans">
 
-    <!-- 側邊導覽列 (溫潤木炭風) -->
+    <!-- 側邊導覽列 -->
     <aside class="w-64 bg-[#2C2A29] text-stone-300 flex flex-col justify-between hidden md:flex border-r border-stone-800">
         <div>
             <div class="p-6 border-b border-stone-800 flex items-center space-x-3">
                 <div class="bg-[#D4A373] text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-xs">睿</div>
                 <div>
                     <h1 class="text-white font-bold tracking-wider text-sm">睿立集團</h1>
-                    <p class="text-[10px] text-stone-400">RUILI WARM ERP</p>
+                    <p class="text-[10px] text-stone-400">RUILI PRECISION ERP</p>
                 </div>
             </div>
             <nav class="p-4 space-y-1.5">
-                <button onclick="switchTab('dashboard', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#D4A373] text-white transition shadow-xs"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
+                <button onclick="switchTab('dashboard', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
                 <button onclick="switchTab('marketing', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-bullhorn w-5"></i><span>行銷與 AI 腳本</span></button>
                 <button onclick="switchTab('crm', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-address-book w-5"></i><span>案件與 CRM (報價)</span></button>
-                <button onclick="switchTab('operations', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
+                <button onclick="switchTab('operations', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#D4A373] text-white transition shadow-xs"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
                 <button onclick="switchTab('closing', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-file-invoice-dollar w-5"></i><span>請款與結案中心</span></button>
             </nav>
         </div>
         <div class="p-4 border-t border-stone-800 text-xs text-stone-400 flex items-center justify-between">
             <span>身分：<strong>管理者</strong></span>
-            <span class="inline-block w-2 h-2 rounded-full bg-[#D4A373] animate-pulse"></span>
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         </div>
     </aside>
 
     <!-- 主畫面內容 -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto">
+    <main class="flex-1 flex flex-col h-full overflow-y-auto relative">
         <header class="bg-[#FBF9F5] border-b border-stone-200 px-8 py-5 flex justify-between items-center">
             <div>
-                <h2 id="page-title" class="text-xl font-bold text-stone-900 tracking-tight">戰情室與年度財報</h2>
-                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">即時掌握營運數據、專案毛利與年度收支對比</p>
+                <h2 id="page-title" class="text-xl font-bold text-stone-900 tracking-tight">簽約案件與工作看板</h2>
+                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">點擊卡片內按鈕可體驗各模組互動彈窗模板</p>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-xs bg-[#E9EDC9] text-stone-700 font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-shield-halved mr-1"></i> 系統連線正常</span>
+            <div class="flex items-center space-x-3">
+                <span class="text-xs bg-emerald-50 text-emerald-700 font-medium px-3 py-1 rounded-full border border-emerald-200"><i class="fa-solid fa-bell mr-1"></i> Telegram / Bark 連線中</span>
             </div>
         </header>
 
         <div class="p-8 max-w-[96%] mx-auto w-full flex-1 space-y-6">
             
-            <!-- 1. 戰情室 -->
-            <section id="tab-dashboard" class="tab-content space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
-                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">2026 總簽約金額</p>
-                        <h4 class="text-2xl font-bold text-stone-900 mt-2">NT$ 24,500,000</h4>
-                        <span class="text-xs text-amber-700 font-medium mt-1 inline-block">較去年同期 +18%</span>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
-                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">專案預估毛利</p>
-                        <h4 class="text-2xl font-bold text-[#D4A373] mt-2">NT$ 18,200,000</h4>
-                        <span class="text-xs text-stone-500 mt-1 inline-block">平均毛利率 74.2%</span>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
-                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">進行中案件數</p>
-                        <h4 class="text-2xl font-bold text-stone-900 mt-2">115 件 <span class="text-xs font-normal text-stone-400">(總量)</span></h4>
-                        <span class="text-xs text-amber-600 font-medium mt-1 inline-block">3 件即將逾期 (需關注)</span>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs">
-                        <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">年度淨利預估</p>
-                        <h4 class="text-2xl font-bold text-emerald-700 mt-2">NT$ 11,200,000</h4>
-                        <span class="text-xs text-stone-500 mt-1 inline-block">扣除公司固定支出後</span>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-stone-200/80 shadow-2xs overflow-hidden">
-                    <div class="p-6 border-b border-stone-100 flex justify-between items-center">
-                        <h3 class="font-bold text-stone-800"><i class="fa-solid fa-file-excel text-[#D4A373] mr-2"></i> 歷年損益與財報對照表 (YoY)</h3>
-                        <span class="text-xs text-stone-400">每年 12/31 自動快照封存</span>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-stone-50/70 text-stone-500 text-xs uppercase border-b border-stone-200">
-                                    <th class="p-4">財務指標</th>
-                                    <th class="p-4">2024 年 (已封存)</th>
-                                    <th class="p-4">2025 年 (已封存)</th>
-                                    <th class="p-4 text-[#D4A373]">2026 年 (即時結算)</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm divide-y divide-stone-100">
-                                <tr>
-                                    <td class="p-4 font-medium text-stone-700">總營業收入 (Revenue)</td>
-                                    <td class="p-4">NT$ 12,000,000</td>
-                                    <td class="p-4">NT$ 15,500,000</td>
-                                    <td class="p-4 font-semibold text-[#D4A373]">NT$ 24,500,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 font-medium text-stone-700">(-) 專案直接成本</td>
-                                    <td class="p-4">NT$ 2,000,000</td>
-                                    <td class="p-4">NT$ 2,500,000</td>
-                                    <td class="p-4">NT$ 6,300,000</td>
-                                </tr>
-                                <tr class="bg-stone-50/40">
-                                    <td class="p-4 font-bold text-stone-900">(=) 專案毛利 (Gross Profit)</td>
-                                    <td class="p-4 font-bold">NT$ 10,000,000</td>
-                                    <td class="p-4 font-bold">NT$ 13,000,000</td>
-                                    <td class="p-4 font-bold text-[#D4A373]">NT$ 18,200,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 font-medium text-stone-700">(-) 公司年度總支出 (人事/租金等)</td>
-                                    <td class="p-4">NT$ 6,000,000</td>
-                                    <td class="p-4">NT$ 7,000,000</td>
-                                    <td class="p-4">NT$ 7,000,000</td>
-                                </tr>
-                                <tr class="bg-amber-50/30">
-                                    <td class="p-4 font-bold text-stone-900">(=) 年度淨利 / 盈餘 (Net Profit)</td>
-                                    <td class="p-4 font-bold text-stone-700">NT$ 4,000,000</td>
-                                    <td class="p-4 font-bold text-stone-700">NT$ 6,000,000</td>
-                                    <td class="p-4 font-bold text-emerald-700 text-lg">NT$ 11,200,000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 2. 行銷模組 -->
-            <section id="tab-marketing" class="tab-content hidden space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs space-y-4">
-                        <h3 class="font-bold text-stone-800 flex items-center"><i class="fa-solid fa-robot text-[#D4A373] mr-2"></i> Threads (脆) 話題爬蟲與 AI 腳本</h3>
-                        <p class="text-xs text-stone-500">自動抓取市場熱門討論，點擊按鈕即可測試 AI 即時生成行銷貼文。</p>
-                        <div class="p-4 bg-stone-50 rounded-xl border border-stone-200/60 space-y-3">
-                            <span class="text-xs bg-[#EED7C5] text-stone-800 px-2.5 py-0.5 rounded-md font-medium">抓取自 Threads 熱門話題</span>
-                            <p class="text-sm font-medium text-stone-800">🔥「農地變更流程到底要卡多久？很多地主不知道送件的黃金期...」</p>
-                            <button onclick="generateAiScript()" id="ai-btn" class="w-full bg-[#D4A373] hover:bg-[#C28E5F] text-white text-sm py-2.5 rounded-xl transition font-medium shadow-2xs flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i><span>AI 自動生成行銷腳本</span>
-                            </button>
-                        </div>
-                        <div id="ai-result-box" class="hidden p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2">
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs font-bold text-stone-800"><i class="fa-solid fa-check-circle mr-1 text-[#D4A373]"></i> AI 產出的 Threads 貼文範本：</span>
-                                <button onclick="copyScript()" class="text-xs bg-white text-stone-700 border border-stone-300 px-2 py-0.5 rounded-lg">複製文案</button>
-                            </div>
-                            <p id="ai-text-content" class="text-xs text-stone-700 leading-relaxed bg-white p-3 rounded-lg border border-stone-200"></p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs space-y-4">
-                        <h3 class="font-bold text-stone-800 flex items-center"><i class="fa-solid fa-funnel-dollar text-emerald-700 mr-2"></i> 獲客與轉換漏斗</h3>
-                        <div class="space-y-3 pt-2">
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>認識 (流量曝光)</span><span>1,200 人</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-[#D4A373] h-full w-full"></div></div></div>
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>喜歡 (互動諮詢)</span><span>450 人 (37%)</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-[#D4A373] h-full w-3/4"></div></div></div>
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>信任 (深度諮詢/報價)</span><span>85 人 (18%)</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-[#D4A373] h-full w-1/2"></div></div></div>
-                            <div><div class="flex justify-between text-xs font-semibold mb-1"><span>追隨 (正式簽約成交)</span><span>18 人 (21%)</span></div><div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden"><div class="bg-emerald-700 h-full w-1/4"></div></div></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. CRM 與報價藝術 -->
-            <section id="tab-crm" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">案件管理與 CRM</h3></div></section>
-
-            <!-- 4. 簽約與工作看板 (精密專業版 + 篩選列) -->
-            <section id="tab-operations" class="tab-content hidden space-y-6">
-                
-                <!-- 看板篩選與工具列 (解決上百件擁擠問題) -->
-                <div class="bg-white p-4 rounded-2xl border border-stone-200/85 shadow-2xs flex flex-wrap justify-between items-center gap-4">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs font-bold text-stone-700 uppercase tracking-wider"><i class="fa-solid fa-filter text-[#D4A373] mr-1"></i> 快速過濾：</span>
-                        <select class="text-xs bg-stone-50 border border-stone-300 rounded-xl px-3 py-2 text-stone-700 font-medium focus:outline-none">
-                            <option>全部案件類別 (115件)</option>
-                            <option>土地變更專案</option>
-                            <option>資產顧問專案</option>
-                            <option>商用不動產</option>
-                        </select>
-                        <select class="text-xs bg-stone-50 border border-stone-300 rounded-xl px-3 py-2 text-stone-700 font-medium focus:outline-none">
-                            <option>全部負責人</option>
-                            <option>王代書</option>
-                            <option>陳專員</option>
-                            <option>林經理</option>
-                        </select>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="relative">
-                            <input type="text" placeholder="搜尋地主名稱 / 標的..." class="text-xs bg-stone-50 border border-stone-300 rounded-xl px-3 py-2 pl-8 w-64 text-stone-700 focus:outline-none">
-                            <i class="fa-solid fa-search absolute left-2.5 top-3 text-stone-400 text-xs"></i>
-                        </div>
-                        <button class="bg-[#D4A373] hover:bg-[#C28E5F] text-white text-xs px-4 py-2 rounded-xl font-medium transition shadow-2xs flex items-center space-x-1.5">
-                            <i class="fa-solid fa-plus"></i><span>新增簽約案件</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 四欄式精密工作看板 -->
+            <!-- 工作看板本體 -->
+            <section id="tab-operations" class="tab-content space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5 pt-2">
                     
-                    <!-- 欄位 1 -->
+                    <!-- 欄位 1：進入審查 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-file-signature text-amber-600 mr-1.5"></i> 1. 秘書建檔 / 審查</span>
-                            <span class="bg-amber-100 text-amber-900 text-[11px] px-2 py-0.5 rounded-full font-bold">28 件</span>
                         </div>
                         <div class="space-y-3 flex-1">
                             <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-amber-500">
-                                <div class="flex justify-between items-center text-[11px]">
-                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-clock mr-1"></i> 2026-06-15 簽約</span>
-                                    <span class="bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-bold">🟡 待法務確認</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded font-medium">土地變更</span>
-                                        <span class="text-xs font-bold text-stone-900">NT$ 3,800,000</span>
-                                    </div>
-                                    <h4 class="font-bold text-sm text-stone-900 mt-1">桃園楊梅工業地變更專案</h4>
-                                    <p class="text-[11px] text-stone-500 mt-1 bg-stone-50 p-2 rounded-lg border border-stone-100"><b>特約：</b>須於 3 個月內取得初審同意書，含稅 5%</p>
-                                </div>
-                                <div class="text-[11px] space-y-1 text-stone-600 pt-2 border-t border-stone-100">
-                                    <div class="flex justify-between"><span>付款期程：</span><span class="font-medium">訂金30% / 尾款70%</span></div>
-                                    <div class="flex justify-between"><span>介紹人佣金：</span><span class="font-medium text-amber-700">張代書 (5%)</span></div>
-                                </div>
+                                <h4 class="font-bold text-sm text-stone-900">桃園楊梅工業地變更專案</h4>
+                                <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>須於 3 個月內取得初審同意書</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
                                     <span class="text-stone-400 text-[11px]">負責：王代書</span>
-                                    <button class="text-[#D4A373] hover:underline font-bold text-[11px]">進入審查 &rarr;</button>
+                                    <button onclick="openModal('reviewModal')" class="text-[#D4A373] hover:underline font-bold text-[11px]">進入審查 &rarr;</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 欄位 2 -->
+                    <!-- 欄位 2：異常回報 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-gears text-blue-600 mr-1.5"></i> 2. 生產作業執行中</span>
-                            <span class="bg-blue-100 text-blue-900 text-[11px] px-2 py-0.5 rounded-full font-bold">64 件</span>
                         </div>
                         <div class="space-y-3 flex-1">
                             <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-red-500">
-                                <div class="flex justify-between items-center text-[11px]">
-                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-clock mr-1"></i> 2026-03-10 簽約</span>
-                                    <span class="bg-red-50 text-red-600 px-2 py-0.5 rounded font-bold animate-pulse">🔴 逾期 3 天</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded font-medium">資產顧問</span>
-                                        <span class="text-xs font-bold text-stone-900">NT$ 1,500,000</span>
-                                    </div>
-                                    <h4 class="font-bold text-sm text-stone-900 mt-1">台中七期商辦資產顧問</h4>
-                                    <p class="text-[11px] text-stone-500 mt-1 bg-red-50/50 p-2 rounded-lg border border-red-100 text-red-900"><b>NAS 異常：</b>檔案上傳停滯，Telegram 已發警報！</p>
-                                </div>
-                                <div class="text-[11px] space-y-1 text-stone-600 pt-2 border-t border-stone-100">
-                                    <div class="flex justify-between"><span>付款期程：</span><span class="font-medium">分三期 (已付二期)</span></div>
-                                    <div class="flex justify-between"><span>介紹人佣金：</span><span class="font-medium text-stone-400">無</span></div>
-                                </div>
+                                <h4 class="font-bold text-sm text-stone-900">台中七期商辦資產顧問</h4>
+                                <p class="text-[11px] text-red-700 bg-red-50 p-2 rounded-lg"><b>NAS 異常：</b>檔案上傳停滯超過 5 天</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
                                     <span class="text-stone-400 text-[11px]">負責：陳專員</span>
-                                    <button class="bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1 rounded-lg font-bold text-[11px] transition">🚨 異常回報</button>
+                                    <button onclick="openModal('alertModal')" class="bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1 rounded-lg font-bold text-[11px] transition">🚨 異常回報</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 欄位 3 -->
+                    <!-- 欄位 3：產生請款單 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-file-invoice-dollar text-purple-600 mr-1.5"></i> 3. 階段請款 / 會計</span>
-                            <span class="bg-purple-100 text-purple-900 text-[11px] px-2 py-0.5 rounded-full font-bold">12 件</span>
                         </div>
                         <div class="space-y-3 flex-1">
                             <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-blue-500">
-                                <div class="flex justify-between items-center text-[11px]">
-                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-clock mr-1"></i> 2026-01-20 簽約</span>
-                                    <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold">🔵 第二期請款</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded font-medium">綠能專案</span>
-                                        <span class="text-xs font-bold text-stone-900">NT$ 5,000,000</span>
-                                    </div>
-                                    <h4 class="font-bold text-sm text-stone-900 mt-1">彰化芳苑太陽能土地整合</h4>
-                                    <p class="text-[11px] text-stone-500 mt-1 bg-stone-50 p-2 rounded-lg border border-stone-100"><b>特約：</b>環評初審通過後，請款 40% 工程期款。</p>
-                                </div>
-                                <div class="text-[11px] space-y-1 text-stone-600 pt-2 border-t border-stone-100">
-                                    <div class="flex justify-between"><span>本期請款：</span><span class="font-medium text-blue-700">NT$ 2,000,000</span></div>
-                                    <div class="flex justify-between"><span>介紹人佣金：</span><span class="font-medium text-amber-700">林代書 NT$ 100,000</span></div>
-                                </div>
+                                <h4 class="font-bold text-sm text-stone-900">彰化芳苑太陽能土地整合</h4>
+                                <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>環評初審通過後請款 40%</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
                                     <span class="text-stone-400 text-[11px]">負責：林經理</span>
-                                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] transition">產生請款單</button>
+                                    <button onclick="openModal('invoiceModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] transition">產生請款單</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 欄位 4 -->
+                    <!-- 欄位 4：一鍵結案 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-flag-checkered text-emerald-600 mr-1.5"></i> 4. 準備結案 / 歸檔</span>
-                            <span class="bg-emerald-100 text-emerald-900 text-[11px] px-2 py-0.5 rounded-full font-bold">11 件</span>
                         </div>
                         <div class="space-y-3 flex-1">
                             <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-emerald-500">
-                                <div class="flex justify-between items-center text-[11px]">
-                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-clock mr-1"></i> 2025-11-20 簽約</span>
-                                    <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">🟢 待領證結案</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded font-medium">土地變更</span>
-                                        <span class="text-xs font-bold text-stone-900">NT$ 2,500,000</span>
-                                    </div>
-                                    <h4 class="font-bold text-sm text-stone-900 mt-1">新竹竹北商用土地案</h4>
-                                    <p class="text-[11px] text-stone-500 mt-1 bg-stone-50 p-2 rounded-lg border border-stone-100"><b>特約：</b>完工領證後 7 日內結清尾款與介紹人佣金。</p>
-                                </div>
-                                <div class="text-[11px] space-y-1 text-stone-600 pt-2 border-t border-stone-100">
-                                    <div class="flex justify-between"><span>尾款結清：</span><span class="font-medium text-emerald-700">NT$ 750,000</span></div>
-                                    <div class="flex justify-between"><span>介紹人尾款：</span><span class="font-medium text-amber-700">黃代書 NT$ 37,500</span></div>
-                                </div>
+                                <h4 class="font-bold text-sm text-stone-900">新竹竹北商用土地案</h4>
+                                <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>完工領證後 7 日內結清</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
                                     <span class="text-stone-400 text-[11px]">負責：林經理</span>
-                                    <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] transition"><i class="fa-solid fa-file-word mr-1"></i> 一鍵結案</button>
+                                    <button onclick="openModal('closingModal')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] transition"><i class="fa-solid fa-file-word mr-1"></i> 一鍵結案</button>
                                 </div>
                             </div>
                         </div>
@@ -324,14 +121,135 @@
 
                 </div>
             </section>
-
-            <!-- 5. 請款與結案 -->
-            <section id="tab-closing" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">請款與結案中心</h3></div></section>
-
         </div>
     </main>
 
-    <!-- 互動邏輯與頁籤切換 JavaScript -->
+    <!-- ========================================== -->
+    <!-- 互動彈窗模板區塊 (Modals)                  -->
+    <!-- ========================================== -->
+
+    <!-- 1. 進入審查彈窗模板 -->
+    <div id="reviewModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+            <div class="bg-[#2C2A29] text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-sm"><i class="fa-solid fa-file-signature text-[#D4A373] mr-2"></i> 秘書建檔與代書審查作業</h3>
+                <button onclick="closeModal('reviewModal')" class="text-stone-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-xs text-stone-700">
+                <div class="grid grid-cols-2 gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
+                    <div><b>簽約日期：</b>2026-06-15</div>
+                    <div><b>合約總額：</b>NT$ 3,800,000 (含稅5%)</div>
+                    <div><b>介紹人：</b>張代書</div>
+                    <div><b>介紹人佣金：</b>5% (NT$ 190,000)</div>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1 text-stone-900">特殊約定 (特約) 檢核：</label>
+                    <textarea class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 h-20 text-xs focus:outline-none">須於 3 個月內取得初審同意書，逾期罰則依合約辦理。</textarea>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1 text-stone-900">代書審查意見：</label>
+                    <input type="text" value="地籍資料已核對無誤，土地權狀正本已入庫。" class="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2 text-xs focus:outline-none">
+                </div>
+            </div>
+            <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
+                <button onclick="closeModal('reviewModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
+                <button onclick="alert('審查通過！已推進至生產作業階段'); closeModal('reviewModal');" class="px-4 py-2 bg-[#D4A373] text-white rounded-xl text-xs font-medium shadow-2xs">確認無誤並推進</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 異常回報彈窗模板 -->
+    <div id="alertModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+            <div class="bg-red-600 text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-sm"><i class="fa-solid fa-triangle-exclamation mr-2"></i> 異常回報與即時推播</h3>
+                <button onclick="closeModal('alertModal')" class="text-red-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-xs text-stone-700">
+                <p class="text-stone-500">此動作將會立即透過 **Telegram / Bark**發送緊急推播通知給總監與相關負責人！</p>
+                <div>
+                    <label class="font-bold block mb-1 text-stone-900">異常類型：</label>
+                    <select class="w-full bg-stone-50 border border-stone-300 rounded-xl p-2.5 text-xs focus:outline-none">
+                        <option>NAS 檔案上傳停滯 / 逾期未交件</option>
+                        <option>地主臨時變更需求 / 卡關</option>
+                        <option>會費/規費爭議</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1 text-stone-900">回報說明與細節：</label>
+                    <textarea class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 h-24 text-xs focus:outline-none" placeholder="請輸入卡關原因或需支援事項..."></textarea>
+                </div>
+            </div>
+            <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
+                <button onclick="closeModal('alertModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
+                <button onclick="alert('已成功送出！Telegram 警報已發送'); closeModal('alertModal');" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-medium shadow-2xs">立即發送推播警報</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 產生請款單彈窗模板 -->
+    <div id="invoiceModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+            <div class="bg-[#2C2A29] text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-sm"><i class="fa-solid fa-file-invoice-dollar text-blue-400 mr-2"></i> 階段請款單自動生成</h3>
+                <button onclick="closeModal('invoiceModal')" class="text-stone-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-xs text-stone-700">
+                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 text-blue-900">
+                    <b>請款依據：</b>合約付款期程第 2 期 (環評初審通過後請款 40%)
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><b>合約總額：</b>NT$ 5,000,000</div>
+                    <div><b>本次請款比例：</b>40%</div>
+                    <div><b>請款金額 (未稅)：</b>NT$ 2,000,000</div>
+                    <div><b>營業稅 (5%)：</b>NT$ 100,000</div>
+                </div>
+                <div class="border-t border-stone-200 pt-3 flex justify-between items-center font-bold text-sm text-stone-900">
+                    <span>本次應收總額 (含稅)：</span>
+                    <span class="text-blue-600">NT$ 2,100,000</span>
+                </div>
+                <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-amber-900 text-[11px]">
+                    💡 提示：確認產生後，系統將自動記錄至會計帳收入，並連動計算介紹人林代書佣金 NT$ 100,000。
+                </div>
+            </div>
+            <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
+                <button onclick="closeModal('invoiceModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
+                <button onclick="alert('請款單已成功生成並歸檔！'); closeModal('invoiceModal');" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-medium shadow-2xs">確認產生正式請款單</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 一鍵結案彈窗模板 -->
+    <div id="closingModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+            <div class="bg-emerald-700 text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-sm"><i class="fa-solid fa-file-word mr-2"></i> 一鍵產出 Google Doc 結案報告</h3>
+                <button onclick="closeModal('closingModal')" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-xs text-stone-700">
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-emerald-900">
+                    ✨ <b>結案自動化精算結果：</b>
+                </div>
+                <div class="grid grid-cols-2 gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
+                    <div><b>合約總額：</b>NT$ 2,500,000</div>
+                    <div><b>外部直接成本：</b>NT$ 300,000</div>
+                    <div><b>最終結算毛利：</b><span class="text-emerald-700 font-bold">NT$ 2,200,000 (88%)</span></div>
+                    <div><b>尾款與佣金結清：</b>黃代書 NT$ 37,500</div>
+                </div>
+                <div>
+                    <label class="font-bold block mb-1 text-stone-900">Google Doc 結案報告範本連結：</label>
+                    <input type="text" readonly value="https://docs.google.com/document/d/sample_ruili_closing_report" class="w-full bg-stone-100 border border-stone-300 rounded-xl px-3 py-2 text-xs text-stone-500 focus:outline-none">
+                </div>
+                <p class="text-[11px] text-stone-500">點擊確認後，系統將自動填入各項數據，生成正式結案 PDF 並歸檔至雲端硬碟。</p>
+            </div>
+            <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
+                <button onclick="closeModal('closingModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
+                <button onclick="alert('已成功透過 GAS 產出 Google Doc 結案報告！案子已正式結案。'); closeModal('closingModal');" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-medium shadow-2xs"><i class="fa-solid fa-cloud-arrow-down mr-1"></i> 確認生成並結案</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 互動 JavaScript 邏輯 -->
     <script>
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -339,34 +257,20 @@
                 el.classList.remove('bg-[#D4A373]', 'text-white', 'shadow-xs'); 
                 el.classList.add('hover:bg-stone-800'); 
             });
-            
             document.getElementById('tab-' + tabId).classList.remove('hidden');
-            
-            btnElement.classList.remove('hover:bg-stone-800');
-            btnElement.classList.add('bg-[#D4A373]', 'text-white', 'shadow-xs');
-
-            const titles = {
-                'dashboard': ['戰情室與年度財報', '即時掌握營運數據、專案毛利與年度收支對比'],
-                'marketing': ['行銷與 AI 腳本中心', 'Threads 自動爬蟲話題與獲客漏斗分析'],
-                'crm': ['案件管理與 CRM', '客戶信任歷程與專業報價藝術'],
-                'operations': ['簽約案件與工作看板', '精密多維度任務管控、代書協同與紅綠燈逾期自動預警'],
-                'closing': ['階段請款與結案中心', '合約付款期程管控與 Google Doc 結案報告自動化']
-            };
-            document.getElementById('page-title').innerText = titles[tabId][0];
-            document.getElementById('page-subtitle').innerText = titles[tabId][1];
+            if(btnElement) {
+                btnElement.classList.remove('hover:bg-stone-800');
+                btnElement.classList.add('bg-[#D4A373]', 'text-white', 'shadow-xs');
+            }
         }
 
-        function generateAiScript() {
-            const btn = document.getElementById('ai-btn');
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> 生成中...`;
-            setTimeout(() => {
-                document.getElementById('ai-text-content').innerHTML = `🌱 <b>【地主必看】農地變更真的像你想的那麼難嗎？</b><br><br>睿立集團專業團隊幫您把關每一分利潤，歡迎私訊洽詢！`;
-                document.getElementById('ai-result-box').classList.remove('hidden');
-                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 重新生成`;
-            }, 800);
+        // 彈窗控制函式
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
         }
-
-        function copyScript() { alert('已成功複製行銷文案到剪貼簿！'); }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
     </script>
 </body>
 </html>
