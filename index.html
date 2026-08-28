@@ -38,7 +38,7 @@
         <header class="bg-[#FBF9F5] border-b border-stone-200 px-8 py-5 flex justify-between items-center">
             <div>
                 <h2 id="page-title" class="text-xl font-bold text-stone-900 tracking-tight">簽約案件與工作看板</h2>
-                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">點擊卡片內按鈕可體驗各模組互動彈窗模板</p>
+                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">點擊按鈕可完整體驗確認推進、推播與結案的互動迴圈</p>
             </div>
             <div class="flex items-center space-x-3">
                 <span class="text-xs bg-emerald-50 text-emerald-700 font-medium px-3 py-1 rounded-full border border-emerald-200"><i class="fa-solid fa-bell mr-1"></i> Telegram / Bark 連線中</span>
@@ -51,13 +51,13 @@
             <section id="tab-operations" class="tab-content space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5 pt-2">
                     
-                    <!-- 欄位 1：進入審查 -->
+                    <!-- 欄位 1 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-file-signature text-amber-600 mr-1.5"></i> 1. 秘書建檔 / 審查</span>
                         </div>
                         <div class="space-y-3 flex-1">
-                            <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-amber-500">
+                            <div id="card-1" class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-amber-500">
                                 <h4 class="font-bold text-sm text-stone-900">桃園楊梅工業地變更專案</h4>
                                 <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>須於 3 個月內取得初審同意書</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
@@ -68,13 +68,13 @@
                         </div>
                     </div>
 
-                    <!-- 欄位 2：異常回報 -->
+                    <!-- 欄位 2 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-gears text-blue-600 mr-1.5"></i> 2. 生產作業執行中</span>
                         </div>
                         <div class="space-y-3 flex-1">
-                            <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-red-500">
+                            <div id="card-2" class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-red-500">
                                 <h4 class="font-bold text-sm text-stone-900">台中七期商辦資產顧問</h4>
                                 <p class="text-[11px] text-red-700 bg-red-50 p-2 rounded-lg"><b>NAS 異常：</b>檔案上傳停滯超過 5 天</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
@@ -85,13 +85,13 @@
                         </div>
                     </div>
 
-                    <!-- 欄位 3：產生請款單 -->
+                    <!-- 欄位 3 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-file-invoice-dollar text-purple-600 mr-1.5"></i> 3. 階段請款 / 會計</span>
                         </div>
                         <div class="space-y-3 flex-1">
-                            <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-blue-500">
+                            <div id="card-3" class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-blue-500">
                                 <h4 class="font-bold text-sm text-stone-900">彰化芳苑太陽能土地整合</h4>
                                 <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>環評初審通過後請款 40%</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
@@ -102,13 +102,13 @@
                         </div>
                     </div>
 
-                    <!-- 欄位 4：一鍵結案 -->
+                    <!-- 欄位 4 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-flag-checkered text-emerald-600 mr-1.5"></i> 4. 準備結案 / 歸檔</span>
                         </div>
                         <div class="space-y-3 flex-1">
-                            <div class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-emerald-500">
+                            <div id="card-4" class="bg-white p-4 rounded-xl border border-stone-200/90 shadow-2xs space-y-3 border-l-4 border-l-emerald-500">
                                 <h4 class="font-bold text-sm text-stone-900">新竹竹北商用土地案</h4>
                                 <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>完工領證後 7 日內結清</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
@@ -125,12 +125,12 @@
     </main>
 
     <!-- ========================================== -->
-    <!-- 互動彈窗模板區塊 (Modals)                  -->
+    <!-- 4 個確認按鈕的專屬彈窗模板                    -->
     <!-- ========================================== -->
 
-    <!-- 1. 進入審查彈窗模板 -->
+    <!-- 1. 確認無誤並推進 -->
     <div id="reviewModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200">
             <div class="bg-[#2C2A29] text-white px-6 py-4 flex justify-between items-center">
                 <h3 class="font-bold text-sm"><i class="fa-solid fa-file-signature text-[#D4A373] mr-2"></i> 秘書建檔與代書審查作業</h3>
                 <button onclick="closeModal('reviewModal')" class="text-stone-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -139,57 +139,43 @@
                 <div class="grid grid-cols-2 gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
                     <div><b>簽約日期：</b>2026-06-15</div>
                     <div><b>合約總額：</b>NT$ 3,800,000 (含稅5%)</div>
-                    <div><b>介紹人：</b>張代書</div>
-                    <div><b>介紹人佣金：</b>5% (NT$ 190,000)</div>
                 </div>
                 <div>
                     <label class="font-bold block mb-1 text-stone-900">特殊約定 (特約) 檢核：</label>
                     <textarea class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 h-20 text-xs focus:outline-none">須於 3 個月內取得初審同意書，逾期罰則依合約辦理。</textarea>
                 </div>
-                <div>
-                    <label class="font-bold block mb-1 text-stone-900">代書審查意見：</label>
-                    <input type="text" value="地籍資料已核對無誤，土地權狀正本已入庫。" class="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2 text-xs focus:outline-none">
-                </div>
             </div>
             <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
                 <button onclick="closeModal('reviewModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
-                <button onclick="alert('審查通過！已推進至生產作業階段'); closeModal('reviewModal');" class="px-4 py-2 bg-[#D4A373] text-white rounded-xl text-xs font-medium shadow-2xs">確認無誤並推進</button>
+                <button onclick="submitReviewAction(this)" class="px-4 py-2 bg-[#D4A373] text-white rounded-xl text-xs font-medium shadow-2xs">確認無誤並推進</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. 異常回報彈窗模板 -->
+    <!-- 2. 立即發送推播警報 -->
     <div id="alertModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-stone-200">
             <div class="bg-red-600 text-white px-6 py-4 flex justify-between items-center">
                 <h3 class="font-bold text-sm"><i class="fa-solid fa-triangle-exclamation mr-2"></i> 異常回報與即時推播</h3>
                 <button onclick="closeModal('alertModal')" class="text-red-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="p-6 space-y-4 text-xs text-stone-700">
-                <p class="text-stone-500">此動作將會立即透過 **Telegram / Bark**發送緊急推播通知給總監與相關負責人！</p>
+                <p class="text-stone-500">此動作將立即透過 **Telegram / Bark** 發送緊急推播給總監與負責人！</p>
                 <div>
-                    <label class="font-bold block mb-1 text-stone-900">異常類型：</label>
-                    <select class="w-full bg-stone-50 border border-stone-300 rounded-xl p-2.5 text-xs focus:outline-none">
-                        <option>NAS 檔案上傳停滯 / 逾期未交件</option>
-                        <option>地主臨時變更需求 / 卡關</option>
-                        <option>會費/規費爭議</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="font-bold block mb-1 text-stone-900">回報說明與細節：</label>
-                    <textarea class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 h-24 text-xs focus:outline-none" placeholder="請輸入卡關原因或需支援事項..."></textarea>
+                    <label class="font-bold block mb-1 text-stone-900">異常說明：</label>
+                    <textarea id="alert-reason" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 h-24 text-xs focus:outline-none">NAS 檔案上傳停滯超過 5 天，影響後續進度。</textarea>
                 </div>
             </div>
             <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
                 <button onclick="closeModal('alertModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
-                <button onclick="alert('已成功送出！Telegram 警報已發送'); closeModal('alertModal');" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-medium shadow-2xs">立即發送推播警報</button>
+                <button onclick="submitAlertAction(this)" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-medium shadow-2xs">立即發送推播警報</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. 產生請款單彈窗模板 -->
+    <!-- 3. 確定產生正式請款單 -->
     <div id="invoiceModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200">
             <div class="bg-[#2C2A29] text-white px-6 py-4 flex justify-between items-center">
                 <h3 class="font-bold text-sm"><i class="fa-solid fa-file-invoice-dollar text-blue-400 mr-2"></i> 階段請款單自動生成</h3>
                 <button onclick="closeModal('invoiceModal')" class="text-stone-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -198,58 +184,46 @@
                 <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 text-blue-900">
                     <b>請款依據：</b>合約付款期程第 2 期 (環評初審通過後請款 40%)
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div><b>合約總額：</b>NT$ 5,000,000</div>
-                    <div><b>本次請款比例：</b>40%</div>
-                    <div><b>請款金額 (未稅)：</b>NT$ 2,000,000</div>
-                    <div><b>營業稅 (5%)：</b>NT$ 100,000</div>
+                <div class="grid grid-cols-2 gap-4 font-medium">
+                    <div>本次請款金額 (未稅)：NT$ 2,000,000</div>
+                    <div>營業稅 (5%)：NT$ 100,000</div>
                 </div>
                 <div class="border-t border-stone-200 pt-3 flex justify-between items-center font-bold text-sm text-stone-900">
                     <span>本次應收總額 (含稅)：</span>
                     <span class="text-blue-600">NT$ 2,100,000</span>
                 </div>
-                <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-amber-900 text-[11px]">
-                    💡 提示：確認產生後，系統將自動記錄至會計帳收入，並連動計算介紹人林代書佣金 NT$ 100,000。
-                </div>
             </div>
             <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
                 <button onclick="closeModal('invoiceModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
-                <button onclick="alert('請款單已成功生成並歸檔！'); closeModal('invoiceModal');" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-medium shadow-2xs">確認產生正式請款單</button>
+                <button onclick="submitInvoiceAction(this)" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-medium shadow-2xs">確定產生正式請款單</button>
             </div>
         </div>
     </div>
 
-    <!-- 4. 一鍵結案彈窗模板 -->
+    <!-- 4. 確認生成並結案 -->
     <div id="closingModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 animate-fadeIn">
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200">
             <div class="bg-emerald-700 text-white px-6 py-4 flex justify-between items-center">
                 <h3 class="font-bold text-sm"><i class="fa-solid fa-file-word mr-2"></i> 一鍵產出 Google Doc 結案報告</h3>
                 <button onclick="closeModal('closingModal')" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="p-6 space-y-4 text-xs text-stone-700">
                 <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-emerald-900">
-                    ✨ <b>結案自動化精算結果：</b>
-                </div>
-                <div class="grid grid-cols-2 gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
-                    <div><b>合約總額：</b>NT$ 2,500,000</div>
-                    <div><b>外部直接成本：</b>NT$ 300,000</div>
-                    <div><b>最終結算毛利：</b><span class="text-emerald-700 font-bold">NT$ 2,200,000 (88%)</span></div>
-                    <div><b>尾款與佣金結清：</b>黃代書 NT$ 37,500</div>
+                    ✨ <b>結案自動化精算結果：</b>合約總額 NT$ 2,500,000 | 最終結算毛利 <span class="font-bold">NT$ 2,200,000 (88%)</span>
                 </div>
                 <div>
-                    <label class="font-bold block mb-1 text-stone-900">Google Doc 結案報告範本連結：</label>
-                    <input type="text" readonly value="https://docs.google.com/document/d/sample_ruili_closing_report" class="w-full bg-stone-100 border border-stone-300 rounded-xl px-3 py-2 text-xs text-stone-500 focus:outline-none">
+                    <label class="font-bold block mb-1 text-stone-900">Google Doc 結案報告產出路徑：</label>
+                    <input type="text" readonly value="https://docs.google.com/document/d/ruili_closing_report_success" class="w-full bg-stone-100 border border-stone-300 rounded-xl px-3 py-2 text-xs text-stone-500 focus:outline-none">
                 </div>
-                <p class="text-[11px] text-stone-500">點擊確認後，系統將自動填入各項數據，生成正式結案 PDF 並歸檔至雲端硬碟。</p>
             </div>
             <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
                 <button onclick="closeModal('closingModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
-                <button onclick="alert('已成功透過 GAS 產出 Google Doc 結案報告！案子已正式結案。'); closeModal('closingModal');" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-medium shadow-2xs"><i class="fa-solid fa-cloud-arrow-down mr-1"></i> 確認生成並結案</button>
+                <button onclick="submitClosingAction(this)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-medium shadow-2xs"><i class="fa-solid fa-cloud-arrow-down mr-1"></i> 確認生成並結案</button>
             </div>
         </div>
     </div>
 
-    <!-- 互動 JavaScript 邏輯 -->
+    <!-- 互動 JavaScript 邏輯與按鈕非同步處理 -->
     <script>
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -264,12 +238,62 @@
             }
         }
 
-        // 彈窗控制函式
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
+        function openModal(modalId) { document.getElementById(modalId).classList.remove('hidden'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
+
+        // 1. 確認無誤並推進
+        function submitReviewAction(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> 處理中...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                alert('✅ 審查通過！案件已成功推進至「生產作業執行中」。');
+                document.getElementById('card-1').style.opacity = '0.3';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                closeModal('reviewModal');
+            }, 600);
         }
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
+
+        // 2. 立即發送推播警報
+        function submitAlertAction(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> 正在發送 Telegram...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                alert('🚨 Telegram / Bark 緊急推播已成功送達管理者手機！');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                closeModal('alertModal');
+            }, 600);
+        }
+
+        // 3. 確定產生正式請款單
+        function submitInvoiceAction(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> 產生中...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                alert('📄 正式請款單已成功生成，會計帳與介紹人佣金已自動連動記錄！');
+                document.getElementById('card-3').style.opacity = '0.3';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                closeModal('invoiceModal');
+            }, 600);
+        }
+
+        // 4. 確認生成並結案
+        function submitClosingAction(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> GAS 產生結案報告中...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                alert('🎉 Google Doc 結案報告已自動產出並封存！該案件已正式結案。');
+                document.getElementById('card-4').style.opacity = '0.3';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                closeModal('closingModal');
+            }, 800);
         }
     </script>
 </body>
