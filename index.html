@@ -20,11 +20,11 @@
                 </div>
             </div>
             <nav class="p-4 space-y-1.5">
-                <button onclick="switchTab('dashboard')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#D4A373] text-white transition shadow-xs"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
-                <button onclick="switchTab('marketing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-bullhorn w-5"></i><span>行銷與 AI 腳本</span></button>
-                <button onclick="switchTab('crm')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-address-book w-5"></i><span>案件與 CRM (報價)</span></button>
-                <button onclick="switchTab('operations')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
-                <button onclick="switchTab('closing')" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-file-invoice-dollar w-5"></i><span>請款與結案中心</span></button>
+                <button onclick="switchTab('dashboard', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[#D4A373] text-white transition shadow-xs"><i class="fa-solid fa-chart-line w-5"></i><span>戰情室 & 財報</span></button>
+                <button onclick="switchTab('marketing', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-bullhorn w-5"></i><span>行銷與 AI 腳本</span></button>
+                <button onclick="switchTab('crm', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-address-book w-5"></i><span>案件與 CRM (報價)</span></button>
+                <button onclick="switchTab('operations', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-list-check w-5"></i><span>簽約與工作看板</span></button>
+                <button onclick="switchTab('closing', this)" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 transition"><i class="fa-solid fa-file-invoice-dollar w-5"></i><span>請款與結案中心</span></button>
             </nav>
         </div>
         <div class="p-4 border-t border-stone-800 text-xs text-stone-400 flex items-center justify-between">
@@ -46,6 +46,7 @@
         </header>
 
         <div class="p-8 max-w-7xl mx-auto w-full flex-1 space-y-6">
+            
             <!-- 1. 戰情室 -->
             <section id="tab-dashboard" class="tab-content space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -156,21 +157,145 @@
                 </div>
             </section>
 
-            <!-- 其他頁籤內容預留 -->
+            <!-- 3. CRM 與報價藝術 (預留) -->
             <section id="tab-crm" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">案件管理與 CRM</h3></div></section>
-            <section id="tab-operations" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">簽約與工作看板</h3></div></section>
+
+            <!-- 4. 簽約與工作看板 (已加入完整示範模板) -->
+            <section id="tab-operations" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-2xs space-y-5">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-stone-100">
+                        <div>
+                            <h3 class="font-bold text-stone-900 text-lg"><i class="fa-solid fa-clipboard-user text-[#D4A373] mr-2"></i> 簽約案件與作業看板</h3>
+                            <p class="text-xs text-stone-500 mt-0.5">整合秘書建檔防呆、代書協同、NAS 文件進度推斷與紅綠燈逾期預警</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs bg-amber-50 text-amber-800 px-3 py-1.5 rounded-xl border border-amber-200 font-medium"><i class="fa-solid fa-bell mr-1"></i> Telegram / Bark 推播中</span>
+                            <button class="bg-[#D4A373] hover:bg-[#C28E5F] text-white text-xs px-4 py-2 rounded-xl font-medium transition shadow-2xs">+ 新增簽約案件</button>
+                        </div>
+                    </div>
+
+                    <!-- 三欄式工作看板 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        
+                        <!-- 欄位 1：待指派 / 代書審查 -->
+                        <div class="bg-[#F8F6F0] p-4 rounded-2xl border border-stone-200/60 space-y-4">
+                            <div class="flex justify-between items-center font-bold text-sm text-stone-700 px-1">
+                                <span><i class="fa-solid fa-file-pen text-amber-600 mr-1.5"></i> 待指派 / 代書審查</span>
+                                <span class="bg-stone-200 text-stone-700 text-xs px-2.5 py-0.5 rounded-full font-semibold">1</span>
+                            </div>
+                            
+                            <!-- 示範卡片 1 -->
+                            <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-2xs space-y-3 border-l-4 border-l-emerald-500">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-calendar mr-1"></i> 2026-06-15 簽約</span>
+                                    <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold text-[11px]">🟢 正常進度</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-stone-900">桃園楊梅工業地變更專案</h4>
+                                    <p class="text-xs text-stone-500 mt-1 bg-stone-50 p-2 rounded-lg border border-stone-100"><b>特約：</b>須於 3 個月內取得初審同意書，含稅 5%</p>
+                                </div>
+                                <div class="text-xs space-y-1 text-stone-600 pt-1 border-t border-stone-100">
+                                    <div class="flex justify-between"><span>付款期程：</span><span class="font-medium">訂金 30% / 尾款 70%</span></div>
+                                    <div class="flex justify-between"><span>介紹人佣金：</span><span class="font-medium text-amber-700">張代書 (5%)</span></div>
+                                </div>
+                                <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
+                                    <span class="text-stone-400">負責：王代書</span>
+                                    <button class="text-[#D4A373] hover:underline font-semibold">查看詳情</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 欄位 2：生產作業執行中 -->
+                        <div class="bg-[#F8F6F0] p-4 rounded-2xl border border-stone-200/60 space-y-4">
+                            <div class="flex justify-between items-center font-bold text-sm text-stone-700 px-1">
+                                <span><i class="fa-solid fa-gears text-blue-600 mr-1.5"></i> 生產作業執行中</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-semibold">1</span>
+                            </div>
+                            
+                            <!-- 示範卡片 2 (紅色逾期警示) -->
+                            <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-2xs space-y-3 border-l-4 border-l-red-500">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-calendar mr-1"></i> 2026-03-10 簽約</span>
+                                    <span class="bg-red-50 text-red-600 px-2 py-0.5 rounded font-bold text-[11px] animate-pulse">🔴 逾期 3 天</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-stone-900">台中七期商辦資產顧問</h4>
+                                    <p class="text-xs text-stone-500 mt-1 bg-stone-50 p-2 rounded-lg border border-stone-100"><b>NAS 狀態：</b>檔案上傳停滯，系統已自動發送 Telegram 警報</p>
+                                </div>
+                                <div class="text-xs space-y-1 text-stone-600 pt-1 border-t border-stone-100">
+                                    <div class="flex justify-between"><span>付款期程：</span><span class="font-medium">分三期 (已付二期)</span></div>
+                                    <div class="flex justify-between"><span>介紹人佣金：</span><span class="font-medium text-stone-450">無</span></div>
+                                </div>
+                                <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
+                                    <span class="text-stone-400">負責：陳專員</span>
+                                    <button class="bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1 rounded-lg font-bold transition">🚨 異常回報</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 欄位 3：準備結案 / 請款 -->
+                        <div class="bg-[#F8F6F0] p-4 rounded-2xl border border-stone-200/60 space-y-4">
+                            <div class="flex justify-between items-center font-bold text-sm text-stone-700 px-1">
+                                <span><i class="fa-solid fa-flag-checkered text-emerald-600 mr-1.5"></i> 準備結案 / 請款</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-semibold">1</span>
+                            </div>
+                            
+                            <!-- 示範卡片 3 -->
+                            <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-2xs space-y-3 border-l-4 border-l-blue-500">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-stone-400 font-medium"><i class="fa-regular fa-calendar mr-1"></i> 2025-11-20 簽約</span>
+                                    <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold text-[11px]">🔵 待收尾款</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-stone-900">新竹竹北商用土地案</h4>
+                                    <p class="text-xs text-stone-500 mt-1 bg-stone-50 p-2 rounded-lg border border-stone-100"><b>特約：</b>完工領證後 7 日內結清尾款與介紹人佣金</p>
+                                </div>
+                                <div class="text-xs space-y-1 text-stone-600 pt-1 border-t border-stone-100">
+                                    <div class="flex justify-between"><span>尾款金額：</span><span class="font-medium text-emerald-700">NT$ 1,500,000</span></div>
+                                    <div class="flex justify-between"><span>介紹人尾款：</span><span class="font-medium text-amber-700">林代書 NT$ 75,000</span></div>
+                                </div>
+                                <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
+                                    <span class="text-stone-400">負責：林經理</span>
+                                    <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold transition">執行結案</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. 請款與結案 (預留) -->
             <section id="tab-closing" class="tab-content hidden"><div class="bg-white p-6 rounded-2xl border border-stone-200"><h3 class="font-bold">請款與結案中心</h3></div></section>
+
         </div>
     </main>
 
+    <!-- 互動邏輯與頁籤切換 JavaScript -->
     <script>
-        function switchTab(tabId) {
+        function switchTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => { el.classList.remove('bg-[#D4A373]', 'text-white'); el.classList.add('hover:bg-stone-800'); });
+            document.querySelectorAll('.tab-btn').forEach(el => { 
+                el.classList.remove('bg-[#D4A373]', 'text-white', 'shadow-xs'); 
+                el.classList.add('hover:bg-stone-800'); 
+            });
+            
             document.getElementById('tab-' + tabId).classList.remove('hidden');
-            event.currentTarget.classList.remove('hover:bg-stone-800');
-            event.currentTarget.classList.add('bg-[#D4A373]', 'text-white');
+            
+            btnElement.classList.remove('hover:bg-stone-800');
+            btnElement.classList.add('bg-[#D4A373]', 'text-white', 'shadow-xs');
+
+            const titles = {
+                'dashboard': ['戰情室與年度財報', '即時掌握營運數據、專案毛利與年度收支對比'],
+                'marketing': ['行銷與 AI 腳本中心', 'Threads 自動爬蟲話題與獲客漏斗分析'],
+                'crm': ['案件管理與 CRM', '客戶信任歷程與專業報價藝術'],
+                'operations': ['簽約案件與工作看板', '秘書建檔防呆、代書協同與紅綠燈逾期追蹤'],
+                'closing': ['階段請款與結案中心', '合約付款期程管控與 Google Doc 結案報告自動化']
+            };
+            document.getElementById('page-title').innerText = titles[tabId][0];
+            document.getElementById('page-subtitle').innerText = titles[tabId][1];
         }
+
         function generateAiScript() {
             const btn = document.getElementById('ai-btn');
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> 生成中...`;
@@ -180,7 +305,8 @@
                 btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 重新生成`;
             }, 800);
         }
-        function copyScript() { alert('已複製文案！'); }
+
+        function copyScript() { alert('已成功複製行銷文案到剪貼簿！'); }
     </script>
 </body>
 </html>
