@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>睿立集團｜精密營運管理與請款系統</title>
+    <title>睿立集團｜精密營運管理與結案系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -38,7 +38,7 @@
         <header class="bg-[#FBF9F5] border-b border-stone-200 px-8 py-5 flex justify-between items-center">
             <div>
                 <h2 id="page-title" class="text-xl font-bold text-stone-900 tracking-tight">簽約案件與工作看板</h2>
-                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">精密多維度任務管控、代書協同與請款作業</p>
+                <p id="page-subtitle" class="text-xs text-stone-500 mt-0.5">精密多維度任務管控與一鍵 PDF 結案歸檔</p>
             </div>
             <div class="flex items-center space-x-3">
                 <span class="text-xs bg-emerald-50 text-emerald-700 font-medium px-3 py-1 rounded-full border border-emerald-200"><i class="fa-solid fa-bell mr-1"></i> Telegram / Bark 連線中</span>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
 
-                    <!-- 欄位 3 (點擊按鈕開啟正式請款單預覽) -->
+                    <!-- 欄位 3 -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-file-invoice-dollar text-purple-600 mr-1.5"></i> 3. 階段請款 / 會計</span>
@@ -102,7 +102,7 @@
                         </div>
                     </div>
 
-                    <!-- 欄位 4 -->
+                    <!-- 欄位 4 (點擊按鈕開啟 PDF 結案報告預覽) -->
                     <div class="bg-[#F4F1EA] p-4 rounded-2xl border border-stone-300/60 space-y-4 flex flex-col">
                         <div class="flex justify-between items-center font-bold text-xs text-stone-700 px-1 uppercase tracking-wider">
                             <span><i class="fa-solid fa-flag-checkered text-emerald-600 mr-1.5"></i> 4. 準備結案 / 歸檔</span>
@@ -113,7 +113,7 @@
                                 <p class="text-[11px] text-stone-500 bg-stone-50 p-2 rounded-lg"><b>特約：</b>完工領證後 7 日內結清</p>
                                 <div class="pt-2 flex justify-between items-center text-xs border-t border-stone-100">
                                     <span class="text-stone-400 text-[11px]">負責：林經理</span>
-                                    <button onclick="openModal('closingModal')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] transition"><i class="fa-solid fa-file-word mr-1"></i> 一鍵結案</button>
+                                    <button onclick="openModal('closingModal')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] transition"><i class="fa-solid fa-file-pdf mr-1"></i> 一鍵結案 (PDF)</button>
                                 </div>
                             </div>
                         </div>
@@ -173,108 +173,133 @@
         </div>
     </div>
 
-    <!-- 3. 正式請款單預覽與開立彈窗 (Official Invoice Modal) -->
+    <!-- 3. 正式請款單預覽與開立彈窗 -->
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4 overflow-y-auto">
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 my-8">
-            
-            <!-- 彈窗頂部工具列 -->
             <div class="bg-[#2C2A29] text-white px-6 py-4 flex justify-between items-center print:hidden">
                 <h3 class="font-bold text-sm"><i class="fa-solid fa-file-invoice text-[#D4A373] mr-2"></i> 正式請款單預覽</h3>
+                <button onclick="closeModal('invoiceModal')" class="text-stone-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-8 space-y-6 bg-white text-stone-800 text-xs">
+                <h1 class="text-xl font-bold">睿立集團 - 請款單範本</h1>
+                <p>點擊下方按鈕可確認開立。</p>
+            </div>
+            <div class="bg-stone-50 px-6 py-4 border-t border-stone-200 flex justify-end space-x-3 print:hidden">
+                <button onclick="closeModal('invoiceModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs">關閉</button>
+                <button onclick="submitInvoiceAction(this)" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold">確定產生請款單</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. 正式 PDF 結案報告預覽與歸檔彈窗 (Closing PDF Modal) -->
+    <!-- ========================================== -->
+    <div id="closingModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200 my-8">
+            
+            <!-- 彈窗頂部工具列 -->
+            <div class="bg-emerald-800 text-white px-6 py-4 flex justify-between items-center print:hidden">
+                <h3 class="font-bold text-sm"><i class="fa-solid fa-file-pdf text-emerald-300 mr-2"></i> 專案正式結案報告 (PDF 預覽版)</h3>
                 <div class="flex items-center space-x-3">
-                    <button onclick="window.print()" class="bg-stone-700 hover:bg-stone-600 text-stone-200 px-3 py-1.5 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-print mr-1"></i> 列印 / 轉存 PDF</button>
-                    <button onclick="closeModal('invoiceModal')" class="text-stone-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                    <button onclick="window.print()" class="bg-emerald-900 hover:bg-emerald-700 text-emerald-100 px-3 py-1.5 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-print mr-1"></i> 列印 / 轉存 PDF 檔案</button>
+                    <button onclick="closeModal('closingModal')" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
             </div>
 
-            <!-- 請款單本體紙張樣式 -->
-            <div class="p-8 sm:p-12 space-y-6 bg-white text-stone-800 font-sans" id="invoice-printable-area">
+            <!-- 結案報告紙張樣式 (PDF 視覺排版) -->
+            <div class="p-8 sm:p-12 space-y-6 bg-white text-stone-800 font-sans" id="closing-printable-area">
                 
-                <!-- 公司標頭 -->
+                <!-- 報告標頭 -->
                 <div class="flex justify-between items-start border-b border-stone-200 pb-6">
                     <div>
                         <h1 class="text-2xl font-bold tracking-wider text-stone-900">睿立集團</h1>
-                        <p class="text-xs text-stone-500 mt-1">RUILI GROUP LAND & ASSET ADVISORY</p>
-                        <p class="text-xs text-stone-500 mt-0.5">統一編號：88362109 | 台北市信義區金融路 88 號</p>
+                        <p class="text-xs text-stone-500 mt-1">RUILI GROUP ASSET ADVISORY & LAND ADMINISTRATION</p>
+                        <p class="text-xs text-stone-500 mt-0.5">統一編號：88362109 | 官方結案查核報告書</p>
                     </div>
                     <div class="text-right">
-                        <h2 class="text-xl font-bold text-[#D4A373] tracking-widest uppercase">Invoice</h2>
-                        <p class="text-xs text-stone-500 mt-1">單據編號：INV-2026-0828</p>
-                        <p class="text-xs text-stone-500 mt-0.5">請款日期：2026-08-28</p>
+                        <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs">🟢 圓滿結案 (CLOSED)</span>
+                        <p class="text-xs text-stone-500 mt-2">報告編號：CLOSE-2026-0828</p>
+                        <p class="text-xs text-stone-500 mt-0.5">結案歸檔日期：2026-08-28</p>
                     </div>
                 </div>
 
-                <!-- 客戶與案件資訊 -->
+                <!-- 專案基本資料 -->
                 <div class="grid grid-cols-2 gap-6 bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs">
                     <div>
-                        <span class="text-stone-400 block mb-1">客戶 / 買受人 (Client)：</span>
-                        <strong class="text-stone-900 text-sm">彰化芳苑綠能開發股份有限公司</strong>
-                        <p class="text-stone-600 mt-0.5">聯絡人：黃協理</p>
+                        <span class="text-stone-400 block mb-1">專案名稱 (Project)：</span>
+                        <strong class="text-stone-900 text-sm">新竹竹北商用土地案</strong>
+                        <p class="text-stone-600 mt-0.5">委託客戶：竹北科技開發股份有限公司</p>
                     </div>
                     <div>
-                        <span class="text-stone-400 block mb-1">專案名稱 (Project)：</span>
-                        <strong class="text-stone-900 text-sm">彰化芳苑太陽能土地整合專案</strong>
-                        <p class="text-stone-600 mt-0.5">負責顧問：林經理</p>
+                        <span class="text-stone-400 block mb-1">專案週期與負責人：</span>
+                        <p class="text-stone-600">簽約日：2025-11-20 ➔ 完工領證日：2026-08-27</p>
+                        <p class="text-stone-600 mt-0.5">主辦經理：林經理 | 協同代書：黃代書</p>
                     </div>
                 </div>
 
-                <!-- 請款明細表格 -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-stone-100 text-stone-600 text-xs uppercase border-b border-stone-200">
-                                <th class="p-3">項次與說明</th>
-                                <th class="p-3 text-center">計價基準</th>
-                                <th class="p-3 text-right">金額 (NT$)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs divide-y divide-stone-100">
-                            <tr>
-                                <td class="p-3">
-                                    <strong class="text-stone-900 block">第二期工程期款（環評初審通過）</strong>
-                                    <span class="text-stone-500">依合約付款期程約定，總合約金額 NT$ 5,000,000 之 40%</span>
-                                </td>
-                                <td class="p-3 text-center">40%</td>
-                                <td class="p-3 text-right font-medium">NT$ 2,000,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 金額結算區 -->
-                <div class="flex justify-end pt-2">
-                    <div class="w-72 space-y-2 text-xs">
-                        <div class="flex justify-between text-stone-600">
-                            <span>銷售額合計 (Subtotal)：</span>
-                            <span>NT$ 2,000,000</span>
-                        </div>
-                        <div class="flex justify-between text-stone-600">
-                            <span>營業稅 5% (Tax 5%)：</span>
-                            <span>NT$ 100,000</span>
-                        </div>
-                        <div class="flex justify-between text-stone-900 font-bold text-sm pt-2 border-t border-stone-300">
-                            <span>本期應收總額 (Total)：</span>
-                            <span class="text-blue-600 text-base">NT$ 2,100,000</span>
-                        </div>
+                <!-- 財務結算總表 -->
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-stone-500"><i class="fa-solid fa-chart-pie text-emerald-600 mr-1"></i> 專案財務與毛利結算表</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-600 text-xs uppercase border-b border-stone-200">
+                                    <th class="p-3">財務項目說明</th>
+                                    <th class="p-3 text-right">金額 (NT$)</th>
+                                    <th class="p-3 text-right">佔比 / 備註</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-medium text-stone-900">總營業收入 (Total Revenue)</td>
+                                    <td class="p-3 text-right font-semibold">NT$ 2,500,000</td>
+                                    <td class="p-3 text-right text-stone-500">100%</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium text-stone-900">(-) 外部直接成本與規費</td>
+                                    <td class="p-3 text-right text-red-600">NT$ 300,000</td>
+                                    <td class="p-3 text-right text-stone-500">12%</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-bold text-stone-900">(=) 專案最終淨毛利 (Gross Profit)</td>
+                                    <td class="p-3 text-right font-bold text-emerald-700 text-sm">NT$ 2,200,000</td>
+                                    <td class="p-3 text-right font-bold text-emerald-700">88.0% 毛利率</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- 內部會計與佣金備註 -->
-                <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 text-xs space-y-1 print:hidden">
-                    <div class="font-bold text-amber-900"><i class="fa-solid fa-shield-halved mr-1"></i> 系統自動聯動備註（內部稽核用）：</div>
-                    <div class="text-amber-800">• 介紹人分潤：林代書（佣金比例 5%，本期應付佣金 NT$ 100,000 將於入帳後自動列入支出的現金流）</div>
-                    <div class="text-amber-800">• 會計帳分類：專案工程收入 - 綠能開發類</div>
+                <!-- 尾款與介紹人分潤結清 -->
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div class="bg-stone-50 p-3.5 rounded-xl border border-stone-200 space-y-1">
+                        <span class="text-stone-400 block">尾款入帳狀態：</span>
+                        <strong class="text-stone-900 text-sm">已全數結清 (NT$ 750,000)</strong>
+                        <p class="text-stone-500">於領證後 7 日內完成匯款驗證。</p>
+                    </div>
+                    <div class="bg-amber-50/60 p-3.5 rounded-xl border border-amber-200 space-y-1">
+                        <span class="text-amber-900 font-bold block">介紹人分潤結算 (Commission)：</span>
+                        <strong class="text-amber-900 text-sm">黃代書：NT$ 37,500 (已撥款)</strong>
+                        <p class="text-amber-800">依合約佣金比例 5% 計算完畢。</p>
+                    </div>
                 </div>
 
-                <!-- 匯款資訊與簽章 -->
+                <!-- 執行成果摘要 -->
+                <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs space-y-2">
+                    <strong class="text-stone-900 block"><i class="fa-solid fa-clipboard-check text-emerald-600 mr-1"></i> 專案執行成果摘要：</strong>
+                    <p class="text-stone-600 leading-relaxed">
+                        本專案於執行期間歷經地籍重測與土地變更審查，已順利取得主管機關核發之正式商用領證文件。所有合約約定之義務均已圓滿達成，NAS 專案卷宗已自動歸檔至公司雲端伺服器永久保存。
+                    </p>
+                </div>
+
+                <!-- 簽章區 -->
                 <div class="grid grid-cols-2 gap-6 pt-6 border-t border-stone-200 text-xs">
                     <div>
-                        <strong class="text-stone-900 block mb-1">匯款銀行帳戶：</strong>
-                        <p class="text-stone-600">銀行：玉山銀行 - 信義分行 (代號 808)</p>
-                        <p class="text-stone-600">帳號：0988-940-288888</p>
-                        <p class="text-stone-600">戶名：睿立資產管理顧問股份有限公司</p>
+                        <p class="text-stone-400 mb-8">主辦專案經理簽章：林經理</p>
+                        <div class="border-b border-stone-400 w-40"></div>
                     </div>
-                    <div class="text-right flex flex-col justify-end">
-                        <p class="text-stone-400 mb-8">核准 / 總監簽章：</p>
+                    <div class="text-right">
+                        <p class="text-stone-400 mb-8">營運總監 / 負責人核准：</p>
                         <div class="border-b border-stone-400 w-40 ml-auto"></div>
                     </div>
                 </div>
@@ -283,36 +308,13 @@
 
             <!-- 彈窗底部操作按鈕 -->
             <div class="bg-stone-50 px-6 py-4 border-t border-stone-200 flex justify-between items-center print:hidden">
-                <span class="text-xs text-stone-500"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> 點擊下方按鈕將正式寫入會計帳與佣金記錄</span>
+                <span class="text-xs text-stone-500"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> 點擊確認後將正式封存專案並歸檔至雲端</span>
                 <div class="flex space-x-3">
-                    <button onclick="closeModal('invoiceModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">關閉預覽</button>
-                    <button onclick="submitInvoiceAction(this)" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-2xs transition">
-                        <i class="fa-solid fa-check mr-1"></i> 確定產生正式請款單並入帳
+                    <button onclick="closeModal('closingModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">關閉預覽</button>
+                    <button onclick="submitClosingAction(this)" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-2xs transition">
+                        <i class="fa-solid fa-cloud-arrow-down mr-1"></i> 確認 PDF 並正式結案歸檔
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. 確認生成並結案 -->
-    <div id="closingModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-stone-200">
-            <div class="bg-emerald-700 text-white px-6 py-4 flex justify-between items-center">
-                <h3 class="font-bold text-sm"><i class="fa-solid fa-file-word mr-2"></i> 一鍵產出 Google Doc 結案報告</h3>
-                <button onclick="closeModal('closingModal')" class="text-emerald-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="p-6 space-y-4 text-xs text-stone-700">
-                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-emerald-900">
-                    ✨ <b>結案自動化精算結果：</b>合約總額 NT$ 2,500,000 | 最終結算毛利 <span class="font-bold">NT$ 2,200,000 (88%)</span>
-                </div>
-                <div>
-                    <label class="font-bold block mb-1 text-stone-900">Google Doc 結案報告產出路徑：</label>
-                    <input type="text" readonly value="https://docs.google.com/document/d/ruili_closing_report_success" class="w-full bg-stone-100 border border-stone-300 rounded-xl px-3 py-2 text-xs text-stone-500 focus:outline-none">
-                </div>
-            </div>
-            <div class="bg-stone-50 px-6 py-3 border-t border-stone-200 flex justify-end space-x-3">
-                <button onclick="closeModal('closingModal')" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-xl text-xs font-medium">取消</button>
-                <button onclick="submitClosingAction(this)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-medium shadow-2xs"><i class="fa-solid fa-cloud-arrow-down mr-1"></i> 確認生成並結案</button>
             </div>
         </div>
     </div>
@@ -362,27 +364,26 @@
             }, 600);
         }
 
-        // 3. 確定產生正式請款單並入帳
+        // 3. 確定產生正式請款單
         function submitInvoiceAction(btn) {
             const originalText = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> 正在寫入會計帳與連動佣金...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> 處理中...`;
             btn.disabled = true;
             setTimeout(() => {
-                alert('📄 正式請款單已成功開立！會計帳收入與林代書佣金已自動完成後端連動記錄。');
-                document.getElementById('card-3').style.opacity = '0.3';
+                alert('📄 請款單已開立！');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 closeModal('invoiceModal');
-            }, 800);
+            }, 600);
         }
 
-        // 4. 確認生成並結案
+        // 4. 確認 PDF 並正式結案歸檔
         function submitClosingAction(btn) {
             const originalText = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> GAS 產生結案報告中...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> PDF 封存與雲端歸檔中...`;
             btn.disabled = true;
             setTimeout(() => {
-                alert('🎉 Google Doc 結案報告已自動產出並封存！該案件已正式結案。');
+                alert('🎉 專案正式結案！PDF 結案報告已成功產出並封存至系統。');
                 document.getElementById('card-4').style.opacity = '0.3';
                 btn.innerHTML = originalText;
                 btn.disabled = false;
